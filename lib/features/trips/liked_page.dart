@@ -22,10 +22,17 @@ import 'trips_service.dart';
 /// Kaydırma ile plan arasındaki köprü: kullanıcı beğendiklerini burada görür,
 /// istemediğini çıkarır ve kalanlarla bir gezi planı kurar.
 class LikedPage extends ConsumerStatefulWidget {
-  const LikedPage({this.cityId, super.key});
+  const LikedPage({this.cityId, this.preselect, super.key});
 
   /// Deste ekranından gelindiyse plan bu şehir için kurulur.
   final int? cityId;
+
+  /// Açılışta işaretli gelecek yerler; null ise hepsi işaretli.
+  ///
+  /// Haritadan gelinirken dolu geliyor: plana o oturumda haritada beğenilenler
+  /// girmeli, aylar önce beğenilenler değil. Eskiler listede duruyor ki
+  /// kullanıcı isterse elle ekleyebilsin.
+  final Set<int>? preselect;
 
   @override
   ConsumerState<LikedPage> createState() => _LikedPageState();
@@ -40,7 +47,16 @@ class _LikedPageState extends ConsumerState<LikedPage> {
   void _prime(List<PlaceCard> places) {
     if (_primed) return;
     _primed = true;
-    _selected.addAll(places.map((p) => p.id));
+
+    // Süzgeç listeye uygulanıyor, doğrudan kullanılmıyor: adres elle
+    // değiştirilmiş ya da beğeni bu arada geri alınmış olabilir, olmayan
+    // kimlik seçili sayılmamalı.
+    final wanted = widget.preselect;
+    _selected.addAll(
+      places
+          .map((p) => p.id)
+          .where((id) => wanted == null || wanted.contains(id)),
+    );
   }
 
   Future<void> _createTrip(List<PlaceCard> places) async {

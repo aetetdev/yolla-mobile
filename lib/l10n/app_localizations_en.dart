@@ -601,6 +601,17 @@ class L10nEn extends L10n {
   String get mapEnter => 'Enter';
 
   @override
+  String mapPlanWithLiked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Plan with $count places',
+      one: 'Plan with 1 place',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get commonClose => 'Close';
 
   @override

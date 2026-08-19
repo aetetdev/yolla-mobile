@@ -1111,6 +1111,12 @@ abstract class L10n {
   /// **'Gir'**
   String get mapEnter;
 
+  /// Haritada beğenilen yer varken alt şeridin yazısı.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{1 yerle plan kur} other{{count} yerle plan kur}}'**
+  String mapPlanWithLiked(int count);
+
   /// No description provided for @commonClose.
   ///
   /// In tr, this message translates to:

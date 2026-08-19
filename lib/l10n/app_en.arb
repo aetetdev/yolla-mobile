@@ -205,6 +205,7 @@
   "profilePremium": "Coins and Premium",
   "profilePremiumDetail": "Your balance, the perks, and buying premium",
   "mapEnter": "Enter",
+  "mapPlanWithLiked": "{count, plural, =1{Plan with 1 place} other{Plan with {count} places}}",
   "commonClose": "Close",
 
   "navHandoffOpen": "Open in navigation",

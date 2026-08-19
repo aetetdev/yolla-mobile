@@ -603,6 +603,17 @@ class L10nTr extends L10n {
   String get mapEnter => 'Gir';
 
   @override
+  String mapPlanWithLiked(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count yerle plan kur',
+      one: '1 yerle plan kur',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get commonClose => 'Kapat';
 
   @override

@@ -27,8 +27,34 @@ abstract final class Routes {
   static const premium = '/premium';
 
   static String deckFor(int cityId) => '/kesfet/sehir/$cityId';
-  static String likedFor(int? cityId) =>
-      cityId == null ? liked : '$liked?sehir=$cityId';
+
+  /// Beğenilenler ekranının adresi.
+  ///
+  /// [preselect] verilirse ekran yalnızca o yerleri işaretli açar. Haritadan
+  /// gelinirken kullanılıyor: kullanıcı haritada üç yer beğendiyse plana o üçü
+  /// girmeli, aylar önce beğendikleri değil. Eski beğeniler listede duruyor,
+  /// yalnızca işaretsizler.
+  static String likedFor(int? cityId, {Iterable<int>? preselect}) {
+    final query = [
+      if (cityId != null) 'sehir=$cityId',
+      if (preselect != null && preselect.isNotEmpty)
+        'secili=${preselect.join(',')}',
+    ];
+
+    return query.isEmpty ? liked : '$liked?${query.join('&')}';
+  }
+
+  /// [likedFor]'un `secili` parametresini çözer.
+  ///
+  /// Biçim burada, adresi kuran koda bitişik duruyor ki ikisi ayrışmasın.
+  /// Bozuk ya da boş değer null döner: ekran o zaman hepsini seçili açar.
+  static Set<int>? preselectOf(String? raw) {
+    if (raw == null || raw.isEmpty) return null;
+
+    final ids = raw.split(',').map(int.tryParse).nonNulls.toSet();
+    return ids.isEmpty ? null : ids;
+  }
+
   static String tripFor(int tripId) => '/planlarim/$tripId';
   static String placeFor(int placeId) => '/yer/$placeId';
 }

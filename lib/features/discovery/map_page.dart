@@ -287,7 +287,7 @@ class _MapPageState extends ConsumerState<MapPage> {
           content: Text(l10n.mapPinLiked(pin.name)),
           action: SnackBarAction(
             label: l10n.mapPinGoToLiked,
-            onPressed: () => context.push(Routes.likedFor(null)),
+            onPressed: _openPlanning,
           ),
         ),
       );
@@ -298,6 +298,27 @@ class _MapPageState extends ConsumerState<MapPage> {
     } finally {
       if (mounted) setState(() => _likingPinId = null);
     }
+  }
+
+  /// Haritada beğenilenlerle plan kurmaya götürür.
+  ///
+  /// Beğenilenler ekranı plan kurmanın olduğu yer; burada ikinci bir plan
+  /// akışı açmak yerine oraya hangi yerlerin işaretli geleceği söyleniyor.
+  void _openPlanning() =>
+      context.push(Routes.likedFor(null, preselect: _likedPinIds));
+
+  /// Alt şeridin götürdüğü yer.
+  ///
+  /// Haritada bir şey beğenildiyse doğrudan plan kurmaya gidiyor; hiçbir şey
+  /// beğenilmediyse plana koyacak bir şey yok, eski davranış olan mod seçimi
+  /// kalıyor.
+  void _enter() {
+    if (_likedPinIds.isEmpty) {
+      context.push(Routes.modePicker);
+      return;
+    }
+
+    _openPlanning();
   }
 
   /// Kamera durunca çalışır. Her küçük kaymada sunucuya gitmemek için
@@ -620,7 +641,10 @@ class _MapPageState extends ConsumerState<MapPage> {
                     child: _Badge(text: l10n.mapAttribution),
                   ),
                   const SizedBox(height: Space.sm),
-                  _EnterBar(onPressed: () => context.push(Routes.modePicker)),
+                  _EnterBar(
+                    likedCount: _likedPinIds.length,
+                    onPressed: _enter,
+                  ),
                 ],
               ),
             ),
@@ -776,19 +800,32 @@ class _PinCard extends StatelessWidget {
 }
 
 /// Alttaki "Gir" şeridi — rota kurma akışına giriş.
+/// Haritanın altındaki ana düğme.
+///
+/// İki hali var: haritada hiçbir şey beğenilmemişken keşfe giriş ("Gir"),
+/// beğenildiğinde doğrudan plan kurma. İkinci hal aynı zamanda geri bildirim —
+/// kullanıcı kaç yer topladığını düğmenin üstünde görüyor.
 class _EnterBar extends StatelessWidget {
-  const _EnterBar({required this.onPressed});
+  const _EnterBar({required this.likedCount, required this.onPressed});
 
+  final int likedCount;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = L10n.of(context);
+    final hasLiked = likedCount > 0;
+
     return SizedBox(
       width: double.infinity,
       child: FilledButton.icon(
         onPressed: onPressed,
-        icon: const Icon(Icons.route_rounded),
-        label: Text(L10n.of(context).mapEnter),
+        icon: Icon(
+          hasLiked ? Icons.playlist_add_check_rounded : Icons.route_rounded,
+        ),
+        label: Text(
+          hasLiked ? l10n.mapPlanWithLiked(likedCount) : l10n.mapEnter,
+        ),
       ),
     );
   }

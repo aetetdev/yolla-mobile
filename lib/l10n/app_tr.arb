@@ -244,6 +244,11 @@
   "profilePremium": "Coin ve Premium",
   "profilePremiumDetail": "Bakiyen, avantajlar ve premium alma",
   "mapEnter": "Gir",
+  "mapPlanWithLiked": "{count, plural, =1{1 yerle plan kur} other{{count} yerle plan kur}}",
+  "@mapPlanWithLiked": {
+    "description": "Haritada beğenilen yer varken alt şeridin yazısı.",
+    "placeholders": { "count": { "type": "int" } }
+  },
   "commonClose": "Kapat",
 
   "navHandoffOpen": "Navigasyonda aç",

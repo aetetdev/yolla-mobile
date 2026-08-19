@@ -136,6 +136,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.liked,
         builder: (context, state) => LikedPage(
           cityId: int.tryParse(state.uri.queryParameters['sehir'] ?? ''),
+          preselect: Routes.preselectOf(state.uri.queryParameters['secili']),
         ),
       ),
       GoRoute(
