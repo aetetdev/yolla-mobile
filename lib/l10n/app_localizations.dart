@@ -487,12 +487,6 @@ abstract class L10n {
   /// **'{count} yerle plan oluştur'**
   String likedCreateWith(int count);
 
-  /// No description provided for @likedNeedCity.
-  ///
-  /// In tr, this message translates to:
-  /// **'Plan kurmak için bir şehir destesinden gelmen gerekiyor.'**
-  String get likedNeedCity;
-
   /// No description provided for @likedRowSemantics.
   ///
   /// In tr, this message translates to:

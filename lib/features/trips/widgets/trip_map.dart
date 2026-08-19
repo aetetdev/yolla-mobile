@@ -87,6 +87,12 @@ class _TripMapState extends State<TripMap> {
     ];
 
     _bounds = GeoBounds.of([..._route, ..._stops]);
+
+    debugPrint(
+      '[rota haritası] geometri '
+      '${widget.trip.routeGeometry?.length ?? 0} karakter → '
+      '${_route.length} nokta, ${_stops.length} durak',
+    );
   }
 
   Future<void> _loadStyle() async {
@@ -107,6 +113,11 @@ class _TripMapState extends State<TripMap> {
     try {
       await _write(controller, _routeSourceId, _routeLineJson());
       await _write(controller, _stopSourceId, _stopPointsJson());
+      // Katmanlar da burada tazeleniyor. Eskiden yalnızca stil yüklenirken
+      // ekleniyordu: ilk eklemede bir katman düşerse (ya da rota sonradan
+      // hesaplanıp geldiğinde katman henüz yoksa) kaynak doluyor ama ekranda
+      // hiçbir şey çıkmıyordu. Var olan katmanı yeniden eklemek zararsız.
+      await _addLayers(controller);
       await _fitCamera(controller);
     } on TimeoutException {
       debugPrint('[rota haritası] çizim zaman aşımına uğradı');
@@ -115,19 +126,24 @@ class _TripMapState extends State<TripMap> {
     }
   }
 
-  /// Kaynağı ekler; zaten duruyorsa günceller.
+  /// Kaynağı günceller; henüz yoksa ekler.
   ///
   /// Bayrak tutmak yerine hatayı yakalamak daha dayanıklı: stil yeniden
   /// yüklendiğinde kaynaklar gidiyor ama bayrak bunu bilmiyor.
+  ///
+  /// Önce **güncelleme** deneniyor. Ters sırada, var olan bir kaynağa
+  /// `addGeoJsonSource` çağrıldığında yerli taraf kaynağı değiştirmiyor;
+  /// hata da vermezse veri sessizce eski halinde kalıyor ve rota sonradan
+  /// hesaplandığında haritaya hiç düşmüyor.
   Future<void> _write(
     MapLibreMapController controller,
     String sourceId,
     Map<String, dynamic> data,
   ) async {
     try {
-      await controller.addGeoJsonSource(sourceId, data).timeout(_timeout);
-    } on PlatformException {
       await controller.setGeoJsonSource(sourceId, data).timeout(_timeout);
+    } on PlatformException {
+      await controller.addGeoJsonSource(sourceId, data).timeout(_timeout);
     }
   }
 

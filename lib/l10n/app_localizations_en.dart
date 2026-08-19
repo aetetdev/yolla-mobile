@@ -243,9 +243,6 @@ class L10nEn extends L10n {
   }
 
   @override
-  String get likedNeedCity => 'To build a plan, start from a city deck.';
-
-  @override
   String likedRowSemantics(String name, String state) {
     return '$name, $state';
   }

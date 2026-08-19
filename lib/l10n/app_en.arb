@@ -80,7 +80,6 @@
   "likedSelectAtLeastOne": "Select at least one place",
   "likedSelectAtLeastTwo": "Pick at least two places for a route",
   "likedCreateWith": "Create a plan with {count} places",
-  "likedNeedCity": "To build a plan, start from a city deck.",
   "likedRowSemantics": "{name}, {state}",
   "likedInPlan": "in plan",
   "likedNotInPlan": "not in plan",

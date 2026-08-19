@@ -51,21 +51,25 @@ class TripsService {
   });
 
   /// Şehirlerarası plan oluşturur.
+  ///
+  /// [start] ve [end] koridor akışından geliyor: kullanıcı "şuradan şuraya"
+  /// dediği için uçlar sabit, yerler yolun üstünden seçiliyor. Haritadan
+  /// birden çok şehirden yer toplandığında uç yok — elde yalnızca duraklar
+  /// var ve sıralarını sunucu belirliyor. Sunucu iki gelişi de kabul ediyor.
   Future<Trip> createRouteTrip({
     required String name,
-    required GeoPoint start,
-    required GeoPoint end,
     required List<int> placeIds,
+    GeoPoint? start,
+    GeoPoint? end,
     TravelMode travelMode = TravelMode.car,
   }) => _create({
     'name': name,
     'mode': TripMode.route.wireValue,
     'travelMode': travelMode.wireValue,
-    'startPoint': {
-      'latitude': start.latitude,
-      'longitude': start.longitude,
-    },
-    'endPoint': {'latitude': end.latitude, 'longitude': end.longitude},
+    if (start != null)
+      'startPoint': {'latitude': start.latitude, 'longitude': start.longitude},
+    if (end != null)
+      'endPoint': {'latitude': end.latitude, 'longitude': end.longitude},
     'placeIds': placeIds,
   });
 

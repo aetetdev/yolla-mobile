@@ -244,10 +244,6 @@ class L10nTr extends L10n {
   }
 
   @override
-  String get likedNeedCity =>
-      'Plan kurmak için bir şehir destesinden gelmen gerekiyor.';
-
-  @override
   String likedRowSemantics(String name, String state) {
     return '$name, $state';
   }

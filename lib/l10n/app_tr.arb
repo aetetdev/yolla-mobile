@@ -104,7 +104,6 @@
   "@likedCreateWith": {
     "placeholders": { "count": { "type": "int" } }
   },
-  "likedNeedCity": "Plan kurmak için bir şehir destesinden gelmen gerekiyor.",
   "likedRowSemantics": "{name}, {state}",
   "@likedRowSemantics": {
     "placeholders": {

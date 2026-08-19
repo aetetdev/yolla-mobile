@@ -63,27 +63,25 @@ class _LikedPageState extends ConsumerState<LikedPage> {
     final chosen = places.where((p) => _selected.contains(p.id)).toList();
     if (chosen.isEmpty) return;
 
-    // Şehir içi plan bir şehre bağlı olmak zorunda. Deste ekranından
-    // gelindiyse şehir bellidir; gelinmediyse seçilen yerlerin şehrinden
-    // çıkarılır — kartlar `cityId` taşıyor.
-    final cityId = widget.cityId ?? _cityOf(chosen);
-    if (cityId == null) {
-      _showError(L10n.of(context).likedNeedCity);
-      return;
-    }
+    // Deste ekranından gelindiyse şehir bellidir. Haritadan gelindiyse
+    // seçilenlerin hepsi aynı şehirdeyse şehir içi, değilse şehirlerarası
+    // plan kuruluyor.
+    final cityId = widget.cityId ?? _singleCityOf(chosen);
+    final placeIds = chosen.map((p) => p.id).toList();
 
-    final name = await _askName(chosen.first.cityName);
+    final name = await _askName(cityId == null ? null : chosen.first.cityName);
     if (name == null || !mounted) return;
 
     setState(() => _isCreating = true);
     try {
-      final trip = await ref
-          .read(tripsServiceProvider)
-          .createCityTrip(
-            name: name,
-            cityId: cityId,
-            placeIds: chosen.map((p) => p.id).toList(),
-          );
+      final service = ref.read(tripsServiceProvider);
+      final trip = cityId == null
+          ? await service.createRouteTrip(name: name, placeIds: placeIds)
+          : await service.createCityTrip(
+              name: name,
+              cityId: cityId,
+              placeIds: placeIds,
+            );
       ref
         ..invalidate(tripsProvider)
         // Aylık plan kotası değişti; premium ekranı eski sayıyı göstermesin.
@@ -97,23 +95,17 @@ class _LikedPageState extends ConsumerState<LikedPage> {
     }
   }
 
-  /// Seçilen yerlerin şehri.
+  /// Seçilenlerin hepsi aynı şehirdeyse o şehir, değilse null.
   ///
-  /// Beğeniler birden çok şehirden olabilir (kullanıcı önce Nevşehir sonra
-  /// İzmir gezmiş olabilir); en çok yeri olan şehir seçilir, çünkü plan tek
-  /// bir şehre bağlanmak zorunda.
-  int? _cityOf(List<PlaceCard> places) {
-    final counts = <int, int>{};
-    for (final place in places) {
-      if (place.cityId case final id?) {
-        counts[id] = (counts[id] ?? 0) + 1;
-      }
-    }
-    if (counts.isEmpty) return null;
-
-    return counts.entries
-        .reduce((a, b) => b.value > a.value ? b : a)
-        .key;
+  /// null dönmesi hata değil, plan şehirlerarası kurulacak demek.
+  ///
+  /// Eskiden en çok yeri olan şehir seçiliyordu; Aksaray'dan bir, Isparta'dan
+  /// bir yer beğenen kullanıcı "Aksaray gezisi" adında, 505 km'lik bir
+  /// **şehir içi** plan alıyordu. Çoğunluğa bakmak seçimin yarısını sessizce
+  /// yok saymak oluyordu.
+  int? _singleCityOf(List<PlaceCard> places) {
+    final cities = places.map((p) => p.cityId).toSet();
+    return cities.length == 1 ? cities.first : null;
   }
 
   Future<String?> _askName(String? cityName) {
