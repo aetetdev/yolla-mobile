@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/yolla_colors.dart';
+import '../../core/theme/yolla_tokens.dart';
 import '../../core/theme/yolla_typography.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -81,12 +82,24 @@ class _SplashScreenState extends State<SplashScreen>
                 parent: _controller,
                 curve: const Interval(0.45, 0.75, curve: Curves.easeOut),
               ),
-              child: Text(
-                l10n.appName,
-                style: YollaText.display.copyWith(
-                  color: Colors.white,
-                  fontSize: 40,
-                ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    l10n.appName,
+                    style: YollaText.wordmark.copyWith(color: Colors.white),
+                  ),
+                  const SizedBox(height: Space.xs),
+                  Text(
+                    l10n.appTagline,
+                    textAlign: TextAlign.center,
+                    style: YollaText.slogan.copyWith(
+                      // Ada göre bir tık soluk: ikisi aynı ağırlıkta olunca
+                      // hangisinin marka olduğu belirsizleşiyor.
+                      color: Colors.white.withValues(alpha: 0.85),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -107,22 +120,53 @@ class _SplashPainter extends CustomPainter {
 
   final double t;
 
-  /// Balonların konumu, boyu ve rengi. Rastgele üretilmiyor: her açılışta
-  /// aynı görünsün, "bozuk" izlenimi vermesin.
-  static const _balloons = <(double x, double delay, double scale, bool warm)>[
-    (0.16, 0.00, 1.00, true),
-    (0.78, 0.08, 0.78, false),
-    (0.34, 0.18, 0.55, false),
-    (0.62, 0.26, 0.92, true),
-    (0.88, 0.36, 0.48, true),
-    (0.08, 0.44, 0.66, false),
-    (0.48, 0.52, 0.42, true),
+  /// Balon dilimlerinin renkleri.
+  ///
+  /// Kapadokya balonları tek renk değil, düşey dilimler halinde boyanıyor.
+  /// Her desen dört renk taşıyor ve dilimler bunları sırayla tekrarlıyor.
+  /// Paletler marka renginden değil gerçek balonlardan geliyor; açılış
+  /// ekranının tek renkli ve soluk kalmaması için bilinçli olarak canlı.
+  static const _patterns = <List<Color>>[
+    [Color(0xFFE84A3F), Color(0xFFF7B32B), Color(0xFF2FA3C7), Color(0xFF1F7A5A)],
+    [Color(0xFF8E44AD), Color(0xFFF25C54), Color(0xFFF7B32B), Color(0xFF2FA3C7)],
+    [Color(0xFF1F7A5A), Color(0xFFF7E733), Color(0xFFE84A3F), Color(0xFFFFFFFF)],
+    [Color(0xFFF25C54), Color(0xFFFFFFFF), Color(0xFF2FA3C7), Color(0xFFF7B32B)],
+    [Color(0xFFF7B32B), Color(0xFFE84A3F), Color(0xFF8E44AD), Color(0xFF1F7A5A)],
   ];
+
+  /// Türk bayrağının kırmızısı (TSE 1000'e göre).
+  static const _flagRed = Color(0xFFE30A17);
+
+  /// Balonların konumu, duracağı yükseklik, boyu, deseni ve bayraklı olup
+  /// olmadığı. Rastgele üretilmiyor: her açılışta aynı görünsün, "bozuk"
+  /// izlenimi vermesin.
+  ///
+  /// [endY] ekran yüksekliğinin oranı: balon animasyonun sonunda burada
+  /// duruyor. Balon başına ayrı veriliyor çünkü hepsi aynı yere gidince
+  /// ya tek sıra halinde diziliyorlar ya da hep birlikte ekranın üstünden
+  /// çıkıp kayboluyorlar — açılışın son karesinde ekran boş kalıyordu.
+  ///
+  /// Boylar bilinçli olarak birbirinden uzak: fotoğraftaki gibi önde iri,
+  /// arkada küçük balonlar olunca derinlik hissi çıkıyor. Hepsi aynı boyda
+  /// olduğunda ekran düz bir desene dönüyor.
+  static const _balloons =
+      <(double x, double endY, double delay, double scale, int pattern, bool flag)>[
+        (0.17, 0.30, 0.00, 1.00, 0, false),
+        (0.78, 0.20, 0.06, 0.86, 1, false),
+        // Bayraklı balon ortada, iri ve en önde: göz önce buraya düşsün.
+        (0.47, 0.44, 0.14, 0.96, 0, true),
+        (0.90, 0.38, 0.24, 0.52, 2, false),
+        (0.05, 0.09, 0.30, 0.60, 3, false),
+        (0.66, 0.06, 0.40, 0.44, 4, false),
+        (0.30, 0.12, 0.48, 0.38, 1, false),
+      ];
 
   @override
   void paint(Canvas canvas, Size size) {
-    _paintBalloons(canvas, size);
+    // Rota önce: balonlar gökyüzünde, yolun üstünde duruyor. Ters sırada
+    // çizgi balonların ortasından geçip onları ikiye bölüyordu.
     _paintRoute(canvas, size);
+    _paintBalloons(canvas, size);
   }
 
   /// Aşağıdan yukarı kıvrılarak çizilen yol.
@@ -189,21 +233,22 @@ class _SplashPainter extends CustomPainter {
 
   /// Alttan süzülen sıcak hava balonları.
   void _paintBalloons(Canvas canvas, Size size) {
-    for (final (x, delay, scale, warm) in _balloons) {
+    for (final (x, endY, delay, scale, pattern, flag) in _balloons) {
       final local = ((t - 0.45 - delay * 0.35) / 0.55).clamp(0.0, 1.0);
       if (local <= 0) continue;
 
       final eased = Curves.easeOutSine.transform(local);
 
-      // Aşağıdan yukarı süzülüyor; yatayda hafif salınım var.
-      final dy = size.height * (1.15 - eased * 1.25);
+      // Ekranın altından başlayıp kendi yüksekliğine süzülüyor; yatayda hafif
+      // salınım var.
+      final dy = size.height * (1.15 + (endY - 1.15) * eased);
       final sway = math.sin((eased + delay) * math.pi * 2) * size.width * 0.02;
       final center = Offset(size.width * x + sway, dy);
 
-      final radius = size.width * 0.075 * scale;
-      final opacity = (eased < 0.15 ? eased / 0.15 : 1.0) * 0.9;
+      final radius = size.width * 0.135 * scale;
+      final opacity = (eased < 0.15 ? eased / 0.15 : 1.0) * 0.95;
 
-      _drawBalloon(canvas, center, radius, warm, opacity);
+      _drawBalloon(canvas, center, radius, _patterns[pattern], flag, opacity);
     }
   }
 
@@ -211,12 +256,10 @@ class _SplashPainter extends CustomPainter {
     Canvas canvas,
     Offset center,
     double radius,
-    bool warm,
+    List<Color> pattern,
+    bool flag,
     double opacity,
   ) {
-    final color = (warm ? YollaColors.brand : YollaColors.balloonCool)
-        .withValues(alpha: opacity);
-
     // Gövde: küre ile aşağı doğru daralan damla birleşimi.
     final body = Path()
       ..addOval(Rect.fromCircle(center: center, radius: radius))
@@ -235,7 +278,56 @@ class _SplashPainter extends CustomPainter {
       )
       ..close();
 
-    canvas.drawPath(body, Paint()..color = color);
+    // Gövde dilim dilim boyanıyor. Dilimler gövdenin sınırına kırpılıyor:
+    // düz dikdörtgenler çiziliyor ama balonun dışına taşmıyorlar, böylece
+    // kenarlar kürenin eğrisini koruyor.
+    canvas
+      ..save()
+      ..clipPath(body);
+
+    if (flag) {
+      _paintFlag(canvas, center, radius, opacity);
+    } else {
+      const gores = 8;
+      final left = center.dx - radius;
+      final width = radius * 2 / gores;
+
+      for (var i = 0; i < gores; i++) {
+        canvas.drawRect(
+          Rect.fromLTRB(
+            left + i * width,
+            center.dy - radius,
+            // Dilimler yarım piksel bindiriliyor: aradaki tırtıklı boşluk
+            // yuvarlama yüzünden çıkıyor ve balonu çizgili gösteriyordu.
+            left + (i + 1) * width + 0.5,
+            center.dy + radius * 2,
+          ),
+          Paint()
+            ..color = pattern[i % pattern.length].withValues(alpha: opacity),
+        );
+      }
+    }
+
+    // Alt yarıya doğru koyulaşan gölge; balon düz bir daire değil küre gibi
+    // dursun.
+    canvas
+      ..drawPath(
+        body,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.white.withValues(alpha: opacity * 0.18),
+              Colors.transparent,
+              Colors.black.withValues(alpha: opacity * 0.22),
+            ],
+            stops: const [0.0, 0.45, 1.0],
+          ).createShader(
+            Rect.fromCircle(center: center, radius: radius * 2),
+          ),
+      )
+      ..restore();
 
     // Sepet.
     final basket = Rect.fromCenter(
@@ -263,6 +355,62 @@ class _SplashPainter extends CustomPainter {
         RRect.fromRectAndRadius(basket, Radius.circular(radius * 0.1)),
         Paint()..color = Colors.white.withValues(alpha: opacity * 0.85),
       );
+  }
+
+  /// Bayraklı balon: kırmızı zemin, beyaz ay ve yıldız.
+  ///
+  /// Çağıran gövdeye kırpmış durumda, o yüzden zemin gövdeyi taşacak kadar
+  /// büyük çiziliyor — kenarları kırpma belirliyor.
+  void _paintFlag(Canvas canvas, Offset center, double radius, double opacity) {
+    canvas.drawRect(
+      Rect.fromCircle(center: center, radius: radius * 2.4),
+      Paint()..color = _flagRed.withValues(alpha: opacity),
+    );
+
+    final white = Paint()..color = Colors.white.withValues(alpha: opacity);
+
+    // Ay: büyük daireden, sağa kaydırılmış küçük daire çıkarılıyor. Açık
+    // tarafı sağa bakıyor, bayraktaki gibi.
+    final outer = Path()
+      ..addOval(
+        Rect.fromCircle(
+          center: center.translate(-radius * 0.20, 0),
+          radius: radius * 0.40,
+        ),
+      );
+    final inner = Path()
+      ..addOval(
+        Rect.fromCircle(
+          center: center.translate(-radius * 0.06, 0),
+          radius: radius * 0.32,
+        ),
+      );
+
+    canvas
+      ..drawPath(Path.combine(PathOperation.difference, outer, inner), white)
+      // Yıldız ayın açık tarafında, ucuna değmeden duruyor.
+      ..drawPath(_star(center.translate(radius * 0.42, 0), radius * 0.18), white);
+  }
+
+  /// Beş köşeli yıldız; [radius] dış köşelerin merkeze uzaklığı.
+  Path _star(Offset center, double radius) {
+    const points = 5;
+    final path = Path();
+
+    for (var i = 0; i < points * 2; i++) {
+      final r = i.isEven ? radius : radius * 0.42;
+      // Çeyrek tur geri alınıyor ki bir köşe yukarı baksın.
+      final angle = i * math.pi / points - math.pi / 2;
+      final corner = center + Offset(math.cos(angle) * r, math.sin(angle) * r);
+
+      if (i == 0) {
+        path.moveTo(corner.dx, corner.dy);
+      } else {
+        path.lineTo(corner.dx, corner.dy);
+      }
+    }
+
+    return path..close();
   }
 
   @override

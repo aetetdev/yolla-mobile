@@ -12,7 +12,7 @@ class L10nEn extends L10n {
   String get appName => 'Yolla';
 
   @override
-  String get appTagline => 'Swipe the cards, build your trip.';
+  String get appTagline => 'Swipe, discover, hit the road.';
 
   @override
   String get loading => 'Loading';

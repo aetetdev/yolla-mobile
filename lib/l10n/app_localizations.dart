@@ -106,7 +106,7 @@ abstract class L10n {
   /// No description provided for @appTagline.
   ///
   /// In tr, this message translates to:
-  /// **'Kartları kaydır, gezi planını çıkar.'**
+  /// **'Kaydır, keşfet, yola çık.'**
   String get appTagline;
 
   /// Yükleniyor göstergesinin ekran okuyucuya bildirilen adı.

@@ -23,9 +23,6 @@ abstract final class YollaColors {
   /// uygulama ikonunun zeminiyle aynı — geçişte renk sıçraması olmasın.
   static const splashBackground = Color(0xFF0F585E);
 
-  /// Açılıştaki soğuk tonlu balonlar.
-  static const balloonCool = Color(0xFF2E8B94);
-
   static const accentSoft = Color(0xFFDDEDEC);
 
   // --- Kaydırma aksiyonları ---

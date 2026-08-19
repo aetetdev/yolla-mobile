@@ -2,7 +2,7 @@
   "@@locale": "tr",
 
   "appName": "Yolla",
-  "appTagline": "Kartları kaydır, gezi planını çıkar.",
+  "appTagline": "Kaydır, keşfet, yola çık.",
 
   "loading": "Yükleniyor",
   "@loading": {

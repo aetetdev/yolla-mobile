@@ -12,7 +12,7 @@ class L10nTr extends L10n {
   String get appName => 'Yolla';
 
   @override
-  String get appTagline => 'Kartları kaydır, gezi planını çıkar.';
+  String get appTagline => 'Kaydır, keşfet, yola çık.';
 
   @override
   String get loading => 'Yükleniyor';
