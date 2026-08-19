@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uygulama açılırken Android'in gösterdiği ilk kare.
+     Flutter motoru yüklenene kadar görünüyor; Dart tarafındaki açılış
+     animasyonu bundan sonra devralıyor. Aynı marka rengi kullanıldığı için
+     geçiş görünmüyor. Varsayılan beyaz zemin bırakılsaydı koyu temada
+     gözü alan bir beyaz parlama oluyordu. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/yolla_launch_background" />
+</layer-list>

@@ -1,0 +1,329 @@
+{
+  "@@locale": "tr",
+
+  "appName": "Yolla",
+  "appTagline": "Kartları kaydır, gezi planını çıkar.",
+
+  "loading": "Yükleniyor",
+  "@loading": {
+    "description": "Yükleniyor göstergesinin ekran okuyucuya bildirilen adı."
+  },
+
+  "navDiscover": "Keşfet",
+  "navTrips": "Planlarım",
+  "navProfile": "Profil",
+
+  "modeCityTitle": "Şehir gez",
+  "modeCityDetail": "Bir şehir seç, gezilecek yerleri kart kart gör, beğendiklerin için yürüme rotası çıkar.",
+  "modeRouteTitle": "Yola çıkıyorum",
+  "modeRouteDetail": "Nereden nereye gittiğini söyle, yol üstündeki yerleri sırayla göster.",
+
+  "cityPickerTitle": "Nereyi gezeceksin?",
+  "cityPickerSubtitle": "Şehri seç, kartları kaydırarak planını çıkar.",
+  "citySearchHint": "Şehir ara",
+  "cityNotFoundTitle": "Şehir bulunamadı",
+  "cityNotFoundEmpty": "İçeriği hazır şehir listelenemedi.",
+  "cityNotFoundQuery": "\"{query}\" için sonuç yok.",
+  "@cityNotFoundQuery": {
+    "placeholders": { "query": { "type": "String" } }
+  },
+  "cityNoContent": "Henüz içerik yok",
+  "cityPlaceCount": "{count} yer",
+  "@cityPlaceCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "citiesLoadFailed": "Şehirler yüklenemedi",
+
+  "deckStampLike": "PLANA EKLE",
+  "deckStampPass": "GEÇ",
+  "deckStampLater": "SONRA",
+  "deckActionUndo": "Geri al",
+  "deckActionPass": "Geç",
+  "deckActionLater": "Sonra bakarım",
+  "deckActionLike": "Plana ekle",
+  "deckDetail": "Ayrıntı",
+  "deckDetailSemantics": "Ayrıntıları gör",
+  "deckLikedSemantics": "{count} beğenilen yer, plana geç",
+  "@deckLikedSemantics": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "deckAlreadySent": "Bu kaydırma zaten gönderildi",
+  "deckUndoFailed": "Geri alınamadı, bağlantını kontrol et",
+  "deckFinishedTitle": "Deste bitti",
+  "deckFinishedDetail": "{count} yer beğendin. Planını oluşturmaya hazırsın.",
+  "@deckFinishedDetail": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "deckEmptyTitle": "Burada henüz içerik yok",
+  "deckEmptyDetail": "Bu şehir için gösterilebilecek yer bulunamadı. Başka bir şehir seçebilirsin.",
+  "deckCreatePlan": "Planı oluştur",
+  "deckDetourLabel": "{distance} sapma",
+  "@deckDetourLabel": {
+    "placeholders": { "distance": { "type": "String" } }
+  },
+
+  "corridorTitle": "Yola çıkıyorum",
+  "corridorIntro": "Yol boyunca uğrayabileceğin yerleri, geçiş sırasına göre göstereceğiz.",
+  "corridorFrom": "Nereden",
+  "corridorTo": "Nereye",
+  "corridorPickCity": "Şehir seç",
+  "corridorUseMyLocation": "Konumumdan başla",
+  "corridorMyLocation": "Bulunduğum yer",
+  "corridorLocationDenied": "Konum izni verilmedi; başlangıç için şehir seçebilirsin.",
+  "corridorLocationFailed": "Konumun alınamadı, tekrar dene.",
+  "corridorSameCity": "Başlangıç ve varış aynı olamaz.",
+  "corridorBufferTitle": "Yoldan sapma payı",
+  "corridorBufferDetail": "Ana yoldan en fazla {km} km uzaktaki yerler gösterilsin.",
+  "@corridorBufferDetail": {
+    "placeholders": { "km": { "type": "int" } }
+  },
+  "corridorStart": "Yol üstünü göster",
+
+  "corridorCitiesTitle": "Hangi şehirlere uğrayalım?",
+  "corridorCitiesIntro": "Yolun geçtiği şehirler, geçiş sırasına göre. İstemediklerinin işaretini kaldır.",
+  "corridorCitiesPlaces": "{count, plural, =1{1 yer} other{{count} yer}}",
+  "@corridorCitiesPlaces": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "corridorCitiesSelectAll": "Hepsini seç",
+  "corridorCitiesClear": "Hiçbiri",
+  "corridorCitiesSelected": "{count, plural, =0{Şehir seçilmedi} =1{1 şehir seçildi} other{{count} şehir seçildi}}",
+  "@corridorCitiesSelected": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "corridorCitiesEmptyTitle": "Bu yolda gösterilecek şehir yok",
+  "corridorCitiesEmptyDetail": "Sapma payını artırmayı dene; koridora daha çok yer girer.",
+  "corridorCitiesContinue": "Devam et",
+
+  "likedTitle": "Beğendiklerin",
+  "likedEmptyTitle": "Henüz bir yer beğenmedin",
+  "likedEmptyDetail": "Kartları sağa kaydırdığın yerler burada birikir.",
+  "likedSelectAtLeastOne": "En az bir yer seç",
+  "likedSelectAtLeastTwo": "Rota için en az iki yer seç",
+  "likedCreateWith": "{count} yerle plan oluştur",
+  "@likedCreateWith": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "likedNeedCity": "Plan kurmak için bir şehir destesinden gelmen gerekiyor.",
+  "likedRowSemantics": "{name}, {state}",
+  "@likedRowSemantics": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "state": { "type": "String" }
+    }
+  },
+  "likedInPlan": "planda",
+  "likedNotInPlan": "planda değil",
+
+  "tripNameDialogTitle": "Plana bir ad ver",
+  "tripNameHint": "Plan adı",
+  "tripDefaultName": "Gezi planım",
+  "tripCityName": "{city} gezisi",
+  "@tripCityName": {
+    "placeholders": { "city": { "type": "String" } }
+  },
+  "tripsTitle": "Planlarım",
+  "tripsEmptyTitle": "Henüz planın yok",
+  "tripsEmptyDetail": "Bir şehir seçip kartları kaydırmaya başla; beğendiklerinle plan kurabilirsin.",
+  "tripsEmptyAction": "Şehir seç",
+  "tripStopCount": "{count} durak",
+  "@tripStopCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "tripRouteNotComputed": "rota hesaplanmadı",
+  "tripFallbackTitle": "Plan",
+  "tripRename": "Yeniden adlandır",
+  "tripRenameTitle": "Planı yeniden adlandır",
+  "tripDelete": "Planı sil",
+  "tripDeleteTitle": "Plan silinsin mi?",
+  "tripDeleteDetail": "Bu işlem geri alınamaz.",
+  "tripNoStopsTitle": "Planda durak kalmadı",
+  "tripNoStopsDetail": "Kart destesine dönüp yeni yerler beğenebilirsin.",
+  "tripRouteHint": "Rota henüz hesaplanmadı. Duraklar en kısa sıraya dizilecek.",
+  "tripMetricDistance": "Mesafe",
+  "tripMetricTravel": "Yol süresi",
+  "tripMetricVisit": "Gezme",
+  "tripTooLongOnFoot": "Duraklar birbirinden uzak — yürüyerek uzun sürer, araç önerilir.",
+  "tripStopsTitle": "Duraklar",
+  "tripRemoveStop": "Plandan çıkar",
+  "tripNeedTwoStops": "Rota hesaplamak için planda en az iki durak olmalı.",
+  "tripOptimize": "Rotayı hesapla",
+  "tripReoptimize": "Rotayı yeniden hesapla",
+  "tripMapNoLocation": "Gösterilecek konum yok",
+  "tripMapStopsOnly": "Duraklar — rota hesaplanmadı",
+  "placeDirections": "Yol tarifi al",
+  "placeWebsite": "Web sitesi",
+  "placeWikipedia": "Wikipedia",
+  "placeAddress": "Adres",
+  "placeOpeningHours": "Çalışma saatleri",
+  "placeAverageVisit": "Ortalama süre",
+  "placeAverageVisitValue": "{minutes} dakika",
+  "@placeAverageVisitValue": {
+    "placeholders": { "minutes": { "type": "int" } }
+  },
+  "placeNearby": "Yakında",
+  "placeLinkFailed": "Bağlantı açılamadı",
+
+  "profileTitle": "Profil",
+  "profileAnonymousTitle": "Hesapsız kullanıyorsun",
+  "profileAnonymousDetail": "Planların ve beğendiklerin bu cihazda tutuluyor. Hesap açarsan başka cihazlarda da açabilirsin — uygulamayı silersen kaybolmazlar.",
+  "profileSignedInTitle": "Hesabın açık",
+  "profileSignedInDetail": "Planların hesabına bağlı; başka bir cihazda giriş yaparak aynı yerden devam edebilirsin.",
+  "profileVersion": "Sürüm",
+  "profileSources": "Kaynaklar ve lisanslar",
+  "profileSourcesDetail": "OpenStreetMap, Wikimedia Commons, Wikipedia",
+
+  "mapPreparing": "Harita hazırlanıyor",
+  "mapAttribution": "© OpenStreetMap katkıcıları",
+  "mapPinNoPhoto": "Bu yerin fotoğrafı yok",
+  "mapPinDetail": "Detayına bak",
+  "mapPinLike": "Beğendim",
+  "mapPinLikedShort": "Beğenildi",
+  "mapPinLiked": "{name} beğenilenlere eklendi",
+  "@mapPinLiked": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "mapPinGoToLiked": "Beğendiklerim",
+
+  "contributePhotoTitle": "Bu yerin fotoğrafı yok",
+  "contributePhotoDetail": "Buraya gittiysen bir fotoğraf ekle; onaylandığında yayına girer.",
+  "contributePhotoDetailWithCoins": "Buraya gittiysen bir fotoğraf ekle. Onaylanırsa {coins} coin kazanırsın.",
+  "@contributePhotoDetailWithCoins": {
+    "placeholders": { "coins": { "type": "int" } }
+  },
+  "contributePhotoAction": "Fotoğraf ekle",
+  "contributePhotoCamera": "Kamerayla çek",
+  "contributePhotoGallery": "Galeriden seç",
+  "contributePhotoRules": "Yerin kendisini gösteren, net bir fotoğraf olsun. Başkasının fotoğrafını gönderme.",
+  "contributePhotoModeration": "Gönderiler yayına girmeden önce elle inceleniyor. Fotoğraftaki konum bilgisi kaldırılır.",
+  "contributePhotoSent": "Fotoğrafın gönderildi, inceleme sonrası yayına girecek.",
+
+  "premiumTitle": "Coin ve Premium",
+  "premiumCoinBalance": "{count} coin",
+  "@premiumCoinBalance": { "placeholders": { "count": { "type": "int" } } },
+  "premiumCoinHowTo": "Gönderdiğin her fotoğraf onaylandığında {coins} coin kazanırsın.",
+  "@premiumCoinHowTo": { "placeholders": { "coins": { "type": "int" } } },
+  "premiumPendingPhotos": "{count} fotoğrafın inceleniyor",
+  "@premiumPendingPhotos": { "placeholders": { "count": { "type": "int" } } },
+  "premiumTripQuota": "Bu ay {left} plan hakkın kaldı ({limit} üzerinden).",
+  "@premiumTripQuota": { "placeholders": { "left": { "type": "int" }, "limit": { "type": "int" } } },
+  "premiumBenefitsTitle": "Premium ne veriyor?",
+  "premiumBenefitOfflineTitle": "Çevrimdışı harita ve plan",
+  "premiumBenefitOfflineDetail": "Şehir haritasını ve planını indir, veri olmadan kullan.",
+  "premiumBenefitTripsTitle": "Sınırsız plan",
+  "premiumBenefitTripsDetail": "Ücretsiz hesap ayda {limit} plan kaydedebiliyor; premiumda sınır yok.",
+  "@premiumBenefitTripsDetail": { "placeholders": { "limit": { "type": "int" } } },
+  "premiumBenefitAdsTitle": "Reklamsız",
+  "premiumBenefitAdsDetail": "Uygulamada reklam gösterilmez.",
+  "premiumWithCoinsTitle": "Coinle al",
+  "premiumWithCoinsDetail": "Fotoğraf katkısıyla kazandığın coinleri premium süresine çevir. Onaylanan her fotoğraf {coins} coin.",
+  "@premiumWithCoinsDetail": { "placeholders": { "coins": { "type": "int" } } },
+  "premiumOneMonth": "1 ay premium",
+  "premiumTwoMonths": "2 ay premium",
+  "premiumUnlimited": "Süresiz premium",
+  "premiumPackageCost": "{cost} coin",
+  "@premiumPackageCost": { "placeholders": { "cost": { "type": "int" } } },
+  "premiumPackageShort": "{missing} coin daha gerekiyor",
+  "@premiumPackageShort": { "placeholders": { "missing": { "type": "int" } } },
+  "premiumWithMoneyTitle": "Parayla al",
+  "premiumWithMoneyDetail": "Coin biriktirmek istemiyorsan doğrudan satın alabileceksin.",
+  "premiumWithMoneySoon": "Mağaza satın alması henüz açık değil",
+  "premiumConfirmTitle": "Premium alınsın mı?",
+  "premiumConfirmDetail": "{cost} coin harcanacak.",
+  "@premiumConfirmDetail": { "placeholders": { "cost": { "type": "int" } } },
+  "premiumConfirmAction": "Al",
+  "premiumRedeemed": "Premium hakkın tanımlandı.",
+  "premiumActiveTitle": "Premium açık",
+  "premiumActiveUnlimited": "Süresiz premium hakkın var.",
+  "premiumActiveUntil": "{date} tarihine kadar geçerli.",
+  "@premiumActiveUntil": { "placeholders": { "date": { "type": "String" } } },
+  "premiumCoinHistory": "Coin hareketleri",
+  "premiumReasonPhoto": "Fotoğraf onaylandı",
+  "premiumReasonRedeem": "Premium alındı",
+  "premiumReasonAdjustment": "Düzeltme",
+  "profilePremium": "Coin ve Premium",
+  "profilePremiumDetail": "Bakiyen, avantajlar ve premium alma",
+  "mapEnter": "Gir",
+  "commonClose": "Kapat",
+
+  "navHandoffOpen": "Navigasyonda aç",
+  "navHandoffTitle": "Navigasyonda aç",
+  "navHandoffDetail": "Rotayı telefonundaki navigasyon uygulamasına gönderiyoruz; yol tarifini oradan alacaksın.",
+  "navHandoffNone": "Telefonunda desteklenen bir navigasyon uygulaması bulunamadı.",
+  "navHandoffFailed": "Navigasyon uygulaması açılamadı.",
+  "navHandoffDropped": "{count, plural, other{Bu uygulama {count} durağı taşıyamıyor; ilk ve son durak korunur.}}",
+  "@navHandoffDropped": {
+    "description": "Hedef uygulamanın durak sınırı yüzünden aktarılamayan durak sayısı.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "navAppGoogleMaps": "Google Haritalar",
+  "navAppYandexMaps": "Yandex Haritalar",
+  "navAppYandexNavi": "Yandex Navigasyon",
+  "navAppAppleMaps": "Apple Haritalar",
+
+  "authWallSubtitle": "Kartları kaydır, gezi planını çıkar. Başlamak için hesabına gir.",
+  "authWallFootnote": "Planların ve beğendiklerin hesabına bağlanır; telefonunu değiştirsen de kaybolmaz.",
+  "authPasswordShow": "Şifreyi göster",
+  "authPasswordHide": "Şifreyi gizle",
+
+  "authRegister": "Hesap oluştur",
+  "authLogin": "Giriş yap",
+  "authSignOut": "Çıkış yap",
+  "authDeleteAccount": "Hesabımı sil",
+  "authRegisterDetail": "Bu cihazdaki planların ve beğendiklerin hesabına taşınacak.",
+  "authLoginDetail": "Planlarına başka cihazlardan da ulaş.",
+  "authEmail": "E-posta",
+  "authPassword": "Şifre",
+  "authPasswordHelper": "En az 8 karakter",
+  "authEmailRequired": "E-posta gerekli",
+  "authEmailInvalid": "Geçerli bir e-posta yaz",
+  "authPasswordRequired": "Şifre gerekli",
+  "authPasswordTooShort": "En az 8 karakter olmalı",
+  "authSwitchToLogin": "Zaten hesabın var mı? Giriş yap",
+  "authSwitchToRegister": "Hesabın yok mu? Oluştur",
+  "authDeleteTitle": "Hesabını sil",
+  "authDeleteDetail": "Hesabın, planların ve kaydırma geçmişin kalıcı olarak silinir. Bu işlem geri alınamaz.",
+  "authDeletePasswordLabel": "Şifren",
+  "authDeleted": "Hesabın silindi.",
+
+  "attributionsTitle": "Kaynaklar ve lisanslar",
+  "attributionsIntro": "Yolla, açık veriyle çalışıyor. Gösterdiğimiz her şeyin bir kaynağı var ve o kaynağı belirtmek zorundayız.",
+  "attributionsSeen": "Bu oturumda kullanılan veriler",
+  "attributionOsmTitle": "Yer verisi — OpenStreetMap",
+  "attributionOsmDetail": "Turistik yerlerin konumu, adı ve etiketleri OpenStreetMap katkıcılarından geliyor. ODbL lisansı altında kullanılıyor.",
+  "attributionCommonsTitle": "Fotoğraflar — Wikimedia Commons",
+  "attributionCommonsDetail": "Fotoğraflar Wikimedia Commons'tan alınıyor; büyük bölümü CC BY-SA lisanslı. Her fotoğrafın yanında fotoğrafçı adı ve lisansı gösteriliyor.",
+  "attributionWikipediaTitle": "Açıklamalar — Wikipedia",
+  "attributionWikipediaDetail": "Yer açıklamaları Wikipedia özetlerinden geliyor, CC BY-SA lisanslı.",
+  "attributionOsrmTitle": "Rota hesaplama — OSRM",
+  "attributionOsrmDetail": "Yürüme ve sürüş rotaları açık kaynaklı OSRM motoruyla, OpenStreetMap yol ağı üzerinden hesaplanıyor.",
+
+  "commonCancel": "Vazgeç",
+  "commonSave": "Kaydet",
+  "commonCreate": "Oluştur",
+  "commonDelete": "Sil",
+  "commonRetry": "Tekrar dene",
+  "commonBack": "Geri",
+  "commonLoading": "Yükleniyor",
+  "commonLoadFailed": "Yüklenemedi",
+  "commonSomethingWrong": "Bir şeyler ters gitti",
+
+  "durationLessThanMinute": "1 dk'dan az",
+  "durationMinutes": "{minutes} dk",
+  "@durationMinutes": {
+    "placeholders": { "minutes": { "type": "int" } }
+  },
+  "durationHours": "{hours} sa",
+  "@durationHours": {
+    "placeholders": { "hours": { "type": "int" } }
+  },
+  "durationHoursMinutes": "{hours} sa {minutes} dk",
+  "@durationHoursMinutes": {
+    "placeholders": {
+      "hours": { "type": "int" },
+      "minutes": { "type": "int" }
+    }
+  }
+}

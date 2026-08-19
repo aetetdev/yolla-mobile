@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Yalnızca hata ayıklama derlemesi için.
+
+  Android 9'dan beri şifrelenmemiş HTTP varsayılan olarak engelli. Geliştirme
+  sırasında backend ana makinede düz HTTP ile çalıştığı için (öykünücü ana
+  makineye 10.0.2.2 üzerinden ulaşır) bu iki adrese istisna tanınıyor.
+
+  Bu dosya `src/debug` altında olduğu için yayın derlemesine girmez; üretimde
+  tüm trafik HTTPS olmak zorunda.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Android öykünücüsünden ana makine -->
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <!-- Gerçek cihazda `adb reverse` kullanılırsa -->
+        <domain includeSubdomains="false">localhost</domain>
+        <!-- Gerçek cihaz aynı Wi-Fi ağındayken geliştirme makinesi.
+             Kablo gerekmiyor; telefon doğrudan bilgisayara bağlanıyor. -->
+        <domain includeSubdomains="false">10.3.40.233</domain>
+    </domain-config>
+</network-security-config>

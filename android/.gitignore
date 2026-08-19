@@ -1,0 +1,24 @@
+gradle-wrapper.jar
+/.gradle
+/captures/
+/gradlew
+/gradlew.bat
+/local.properties
+GeneratedPluginRegistrant.java
+.cxx/
+
+# Remember to never publicly share your keystore.
+# See https://flutter.dev/to/reference-keystore
+key.properties
+**/*.keystore
+**/*.jks
+/build/
+
+# Buraya kazara bir Android SDK kopyası indirilmiş (~1,1 GB): emülatör
+# ikilileri, sistem görüntüleri ve lisans dosyaları. Projenin kullandığı
+# gerçek SDK C:\Android'de — local.properties'teki sdk.dir oraya bakıyor.
+# Depoya girmemeleri için burada; klasörler silinebilir.
+/emulator/
+/system-images/
+/licenses/
+/.temp/
