@@ -24,9 +24,10 @@ class SplashScreen extends StatefulWidget {
 
   /// Animasyonun tamamının süresi.
   ///
-  /// Balonların geçişi 1,7 sn'de fazla telaşlıydı; süre uzatılıp fazlası
-  /// balonlara verildi. Rota ve yazının temposu değişmedi.
-  static const duration = Duration(milliseconds: 4800);
+  /// Uzunluğun tamamı balonlara ait: geçişleri rotanın çizilme temposuna
+  /// indirildi ve bu iki katı zaman istiyor. Rota ile yazının süreleri
+  /// (1,2 sn ve 0,96 sn) baştan beri aynı.
+  static const duration = Duration(milliseconds: 6400);
 
   /// Animasyon bittikten sonra ekranın durduğu süre.
   ///
@@ -182,11 +183,11 @@ class _LeftToRightReveal extends StatelessWidget {
 
 /// Açılış karesini çizer.
 ///
-/// Zaman çizelgesi (toplam 4,8 sn):
-/// * `0.00 – 0.54` balonlar alttan yükselip ekranı geçer (~2,6 sn),
-/// * `0.54 – 0.80` rota aşağıdan yukarı çizilir,
-/// * `0.66 – 0.90` duraklar sırayla yukarıdan düşüp yola oturur,
-/// * `0.80 – 1.00` ad ve slogan soldan sağa açılır.
+/// Zaman çizelgesi (toplam 6,4 sn):
+/// * `0.00 – 0.66` balonlar alttan yükselip ekranı geçer (~4,2 sn),
+/// * `0.66 – 0.85` rota aşağıdan yukarı çizilir (~1,2 sn),
+/// * `0.72 – 0.94` duraklar sırayla yukarıdan düşüp yola oturur,
+/// * `0.85 – 1.00` ad ve slogan soldan sağa açılır (~0,96 sn).
 class _SplashPainter extends CustomPainter {
   _SplashPainter(this.t);
 
@@ -195,7 +196,7 @@ class _SplashPainter extends CustomPainter {
   /// Yazının açılma oranı; ekran widget'ı da buradan okuyor ki çizelge tek
   /// yerde dursun.
   static double textProgress(double t) =>
-      Curves.easeOut.transform(((t - 0.80) / 0.20).clamp(0.0, 1.0));
+      Curves.easeOut.transform(((t - 0.85) / 0.15).clamp(0.0, 1.0));
 
   /// Balon dilimlerinin renkleri.
   ///
@@ -257,7 +258,7 @@ class _SplashPainter extends CustomPainter {
     if (metric == null) return;
 
     final progress = Curves.easeInOutCubic.transform(
-      ((t - 0.54) / 0.26).clamp(0.0, 1.0),
+      ((t - 0.66) / 0.19).clamp(0.0, 1.0),
     );
     if (progress <= 0) return;
 
@@ -277,9 +278,9 @@ class _SplashPainter extends CustomPainter {
       final at = stops[i];
       if (progress < at) continue;
 
-      final start = 0.66 + i * 0.05;
+      final start = 0.72 + i * 0.0375;
       final drop = Curves.easeOutBack.transform(
-        ((t - start) / 0.14).clamp(0.0, 1.0),
+        ((t - start) / 0.105).clamp(0.0, 1.0),
       );
       if (drop <= 0) continue;
 
@@ -316,13 +317,17 @@ class _SplashPainter extends CustomPainter {
   /// Alttan yükselip ekranı geçen sıcak hava balonları.
   void _paintBalloons(Canvas canvas, Size size) {
     for (final (x, delay, scale, pattern, flag) in _balloons) {
-      final local = ((t - delay) / 0.44).clamp(0.0, 1.0);
+      final local = ((t - delay) / 0.56).clamp(0.0, 1.0);
       if (local <= 0) continue;
 
       final eased = Curves.easeInOutSine.transform(local);
 
       // Ekranın altından başlayıp üstünden çıkıyor; yatayda hafif salınım var.
-      final dy = size.height * (1.35 - eased * 2.10);
+      //
+      // Hız rotanın çizilme temposuna göre ayarlandı: balon 3,6 saniyede
+      // 1,85 ekran boyu yol alıyor, yani saniyede yarım ekran. Önceki
+      // ayarında saniyede bir tam ekran geçiyordu ve göz takip edemiyordu.
+      final dy = size.height * (1.25 - eased * 1.85);
       final sway = math.sin((eased + delay) * math.pi * 2) * size.width * 0.02;
       final center = Offset(size.width * x + sway, dy);
 
