@@ -63,8 +63,14 @@ class _DeckPageState extends ConsumerState<DeckPage>
     showCardDetailSheet(context, card);
   }
 
-  /// Beğenilenlere geçer. Kaydırmalar önce gönderilir, yoksa liste eksik gelir.
-  Future<void> _openLiked() async {
+  /// Bu destede beğenilenlerle plan kurmaya geçer.
+  ///
+  /// Kaydırmalar önce gönderiliyor, yoksa liste eksik geliyor.
+  ///
+  /// Plana **yalnızca bu oturumda** beğenilenler işaretli giriyor. Kullanıcının
+  /// eski beğenileri listede duruyor ama işaretsiz: Bursa'yı keşfeden biri
+  /// aylar önce beğendiği Antalya'yı da içeren bir rota almamalı.
+  Future<void> _createTrip() async {
     await ref.read(deckControllerProvider.notifier).flushNow();
     if (!mounted) return;
     ref.invalidate(likedPlacesProvider);
@@ -72,7 +78,12 @@ class _DeckPageState extends ConsumerState<DeckPage>
     // Şehir içi plan bir şehre bağlanmak zorunda; koridor modunda şehir yok.
     final source = widget.source;
     final cityId = source is CityDeckSource ? source.city.id : null;
-    context.push(Routes.likedFor(cityId));
+    context.push(
+      Routes.likedFor(
+        cityId,
+        preselect: ref.read(deckControllerProvider).likedIds,
+      ),
+    );
   }
 
   Future<void> _undo() async {
@@ -97,9 +108,9 @@ class _DeckPageState extends ConsumerState<DeckPage>
             Padding(
               padding: const EdgeInsets.only(right: Space.lg),
               child: Center(
-                child: _LikedPill(
+                child: _CreateTripPill(
                   count: state.likedCount,
-                  onTap: _openLiked,
+                  onTap: _createTrip,
                 ),
               ),
             ),
@@ -114,7 +125,7 @@ class _DeckPageState extends ConsumerState<DeckPage>
                 child: _DeckArea(
                   deck: _deck,
                   onDetail: _openDetail,
-                  onFinish: _openLiked,
+                  onFinish: _createTrip,
                 ),
               ),
               const SizedBox(height: Space.lg),
@@ -295,17 +306,26 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
-class _LikedPill extends StatelessWidget {
-  const _LikedPill({required this.count, required this.onTap});
+/// Destenin üstündeki "plan kur" düğmesi.
+///
+/// Eskiden burada kalpli bir beğeni sayacı vardı ve beğenilenler listesine
+/// götürüyordu — kullanıcının bütün beğenilerine. Bu destede topladıklarıyla
+/// aylar önce beğendikleri aynı yere düşünce Bursa gezisinden Antalya duraklı
+/// rota çıkıyordu. Düğme artık ne yaptığını söylüyor: bu destedeki seçimle
+/// plan kurar.
+class _CreateTripPill extends StatelessWidget {
+  const _CreateTripPill({required this.count, required this.onTap});
 
   final int count;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final label = L10n.of(context).deckCreateTripPill(count);
+
     return Semantics(
       button: true,
-      label: L10n.of(context).deckLikedSemantics(count),
+      label: label,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(Radii.pill),
@@ -315,27 +335,27 @@ class _LikedPill extends StatelessWidget {
             vertical: Space.xs + 1,
           ),
           decoration: BoxDecoration(
-            color: YollaColors.like.withValues(alpha: 0.12),
+            color: YollaColors.brand.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(Radii.pill),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Icon(
-                Icons.favorite_rounded,
-                size: 14,
-                color: YollaColors.like,
+                Icons.playlist_add_check_rounded,
+                size: 16,
+                color: YollaColors.brand,
               ),
               const SizedBox(width: Space.xs),
               Text(
-                '$count',
-                style: YollaText.caption.copyWith(color: YollaColors.like),
+                label,
+                style: YollaText.caption.copyWith(color: YollaColors.brand),
               ),
               const SizedBox(width: Space.xxs),
               const Icon(
                 Icons.chevron_right,
                 size: 16,
-                color: YollaColors.like,
+                color: YollaColors.brand,
               ),
             ],
           ),

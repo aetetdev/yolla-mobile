@@ -157,6 +157,18 @@ abstract class L10n {
   /// **'Nereden nereye gittiğini söyle, yol üstündeki yerleri sırayla göster.'**
   String get modeRouteDetail;
 
+  /// No description provided for @modeLikedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beğendiğim yerler'**
+  String get modeLikedTitle;
+
+  /// No description provided for @modeLikedDetail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha önce beğendiklerinden seç, onlarla ayrı bir plan kur.'**
+  String get modeLikedDetail;
+
   /// No description provided for @cityPickerTitle.
   ///
   /// In tr, this message translates to:
@@ -265,12 +277,6 @@ abstract class L10n {
   /// **'Ayrıntıları gör'**
   String get deckDetailSemantics;
 
-  /// No description provided for @deckLikedSemantics.
-  ///
-  /// In tr, this message translates to:
-  /// **'{count} beğenilen yer, plana geç'**
-  String deckLikedSemantics(int count);
-
   /// No description provided for @deckAlreadySent.
   ///
   /// In tr, this message translates to:
@@ -312,6 +318,12 @@ abstract class L10n {
   /// In tr, this message translates to:
   /// **'Planı oluştur'**
   String get deckCreatePlan;
+
+  /// Deste ekranının üstündeki plan kurma düğmesi; sayı bu destede beğenilen yer sayısı.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count, plural, =1{Plan kur · 1} other{Plan kur · {count}}}'**
+  String deckCreateTripPill(int count);
 
   /// No description provided for @deckDetourLabel.
   ///

@@ -18,7 +18,7 @@ class DeckState {
   const DeckState({
     this.source,
     this.cards = const [],
-    this.likedCount = 0,
+    this.likedIds = const {},
     this.isLoading = false,
     this.isLoadingMore = false,
     this.isExhausted = false,
@@ -32,8 +32,16 @@ class DeckState {
   /// Kalan kartlar. `cards.first` en üstteki karttır.
   final List<PlaceCard> cards;
 
+  /// **Bu oturumda** beğenilen yerler.
+  ///
+  /// Sayı değil küme tutuluyor: deste bitince kurulan plana yalnızca bunlar
+  /// giriyor. Eskiden yalnızca sayı vardı ve kaydırmalar sunucuya gidince
+  /// sunucunun *ömür boyu* toplamıyla eziliyordu; Bursa destesini bitiren
+  /// kullanıcı aylar önce beğendiği Antalya'yı da içeren bir plan alıyordu.
+  final Set<int> likedIds;
+
   /// Bu oturumda beğenilen yer sayısı.
-  final int likedCount;
+  int get likedCount => likedIds.length;
 
   final bool isLoading;
   final bool isLoadingMore;
@@ -59,7 +67,7 @@ class DeckState {
   DeckState copyWith({
     DeckSource? source,
     List<PlaceCard>? cards,
-    int? likedCount,
+    Set<int>? likedIds,
     bool? isLoading,
     bool? isLoadingMore,
     bool? isExhausted,
@@ -69,7 +77,7 @@ class DeckState {
   }) => DeckState(
     source: source ?? this.source,
     cards: cards ?? this.cards,
-    likedCount: likedCount ?? this.likedCount,
+    likedIds: likedIds ?? this.likedIds,
     isLoading: isLoading ?? this.isLoading,
     isLoadingMore: isLoadingMore ?? this.isLoadingMore,
     isExhausted: isExhausted ?? this.isExhausted,
@@ -160,9 +168,9 @@ class DeckController extends Notifier<DeckState> {
 
     state = state.copyWith(
       cards: state.cards.sublist(1),
-      likedCount: direction == SwipeDirection.like
-          ? state.likedCount + 1
-          : state.likedCount,
+      likedIds: direction == SwipeDirection.like
+          ? {...state.likedIds, card.id}
+          : state.likedIds,
       pendingSwipes: _pending.length,
     );
 
@@ -193,9 +201,9 @@ class DeckController extends Notifier<DeckState> {
 
     state = state.copyWith(
       cards: [card, ...state.cards],
-      likedCount: record.direction == SwipeDirection.like
-          ? state.likedCount - 1
-          : state.likedCount,
+      likedIds: record.direction == SwipeDirection.like
+          ? ({...state.likedIds}..remove(card.id))
+          : state.likedIds,
       pendingSwipes: _pending.length,
       isExhausted: false,
     );
@@ -277,15 +285,16 @@ class DeckController extends Notifier<DeckState> {
         .toList(growable: false);
 
     try {
-      final result = await _discovery.recordSwipes(batch);
+      await _discovery.recordSwipes(batch);
 
       _pending.removeRange(0, batch.length);
 
       if (ref.mounted) {
-        state = state.copyWith(
-          pendingSwipes: _pending.length,
-          likedCount: result.totalLiked,
-        );
+        // Sunucunun döndürdüğü `totalLiked` bilinçli olarak kullanılmıyor:
+        // o, kullanıcının şimdiye kadarki **bütün** beğenilerinin sayısı.
+        // Buraya yazıldığında deste ekranındaki sayaç oturumu değil ömrü
+        // gösteriyor ve bu destede kurulacak plan da öyle davranıyordu.
+        state = state.copyWith(pendingSwipes: _pending.length);
       }
     } on ApiException catch (error) {
       debugPrint('Kaydırmalar gönderilemedi, kuyrukta bekliyor: $error');

@@ -41,6 +41,13 @@ class L10nEn extends L10n {
       'Tell us where you\'re going, and we\'ll show what\'s along the way in order.';
 
   @override
+  String get modeLikedTitle => 'Places I liked';
+
+  @override
+  String get modeLikedDetail =>
+      'Pick from what you liked earlier and build a separate plan.';
+
+  @override
   String get cityPickerTitle => 'Where to?';
 
   @override
@@ -99,11 +106,6 @@ class L10nEn extends L10n {
   String get deckDetailSemantics => 'See details';
 
   @override
-  String deckLikedSemantics(int count) {
-    return '$count liked places, go to plan';
-  }
-
-  @override
   String get deckAlreadySent => 'This swipe was already sent';
 
   @override
@@ -126,6 +128,17 @@ class L10nEn extends L10n {
 
   @override
   String get deckCreatePlan => 'Build the plan';
+
+  @override
+  String deckCreateTripPill(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Build plan · $count',
+      one: 'Build plan · 1',
+    );
+    return '$_temp0';
+  }
 
   @override
   String deckDetourLabel(String distance) {

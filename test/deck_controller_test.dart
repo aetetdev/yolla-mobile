@@ -13,7 +13,8 @@ import 'package:yolla/features/discovery/discovery_service.dart';
 
 /// Sunucu yerine geçen sahte servis: hangi çağrının yapıldığını kaydeder.
 class _FakeDiscovery implements DiscoveryService {
-  _FakeDiscovery({required this.pages});
+  _FakeDiscovery({required this.pages, int existingLikes = 0})
+    : _totalLiked = existingLikes;
 
   /// Sırayla dönülecek sayfalar.
   final List<FeedPage> pages;
@@ -22,7 +23,9 @@ class _FakeDiscovery implements DiscoveryService {
   final sentBatches = <List<SwipeRecord>>[];
 
   int _pageIndex = 0;
-  int _totalLiked = 0;
+
+  /// Kullanıcının **şimdiye kadarki** beğeni sayısı — bu desteninki değil.
+  int _totalLiked;
 
   @override
   Future<FeedPage> cityFeed({
@@ -132,6 +135,41 @@ void main() {
       // Tek kaydırma eşiğin altında: henüz gönderilmemeli.
       expect(fake.sentBatches, isEmpty);
       expect(state.pendingSwipes, 1);
+    });
+
+    test('beğeniler oturuma ait: eski beğeniler sayılmaz', () async {
+      // Kullanıcı daha önce 40 yer beğenmiş (mesela Antalya gezisinde).
+      // Bu destede beğendiği tek yer, kurulacak planın tek adayı olmalı.
+      final fake = _FakeDiscovery(
+        pages: [
+          FeedPage(
+            items: [for (var i = 1; i <= 12; i++) _card(i)],
+            hasMore: false,
+          ),
+        ],
+        existingLikes: 40,
+      );
+      final container = _container(fake);
+      final notifier = container.read(deckControllerProvider.notifier);
+      await notifier.open(const CityDeckSource(_city));
+
+      notifier.swipe(SwipeDirection.like);
+
+      // Kaydırma sunucuya gidiyor ve sunucu "toplam 41 beğeni" diyor.
+      // Eskiden bu sayı sayacın üstüne yazılıyordu.
+      await notifier.flushNow();
+
+      final state = container.read(deckControllerProvider);
+      expect(
+        state.likedIds,
+        {1},
+        reason: 'plana yalnızca bu destede beğenilen girmeli',
+      );
+      expect(
+        state.likedCount,
+        1,
+        reason: 'sunucunun ömür boyu toplamı sayacı ezmemeli',
+      );
     });
 
     test('eşiğe ulaşınca kaydırmaları toplu gönderir', () async {

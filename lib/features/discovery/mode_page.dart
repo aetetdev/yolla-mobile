@@ -51,6 +51,19 @@ class ModePage extends StatelessWidget {
                 color: YollaColors.accent,
                 onTap: () => context.go(Routes.corridor),
               ),
+              const SizedBox(height: Space.lg),
+
+              // Beğeniler artık keşif oturumuna bağlı: bir desteyi bitirince
+              // plana yalnızca o destede beğenilenler giriyor. Eski beğeniler
+              // kaybolmuyor, girişleri burası — kullanıcı hazır olduğunda
+              // onlardan ayrı bir plan kuruyor.
+              _ModeCard(
+                icon: Icons.favorite_rounded,
+                title: l10n.modeLikedTitle,
+                detail: l10n.modeLikedDetail,
+                color: YollaColors.like,
+                onTap: () => context.push(Routes.likedFor(null)),
+              ),
             ],
           ),
         ),

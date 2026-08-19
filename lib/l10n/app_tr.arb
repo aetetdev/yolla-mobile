@@ -17,6 +17,8 @@
   "modeCityDetail": "Bir şehir seç, gezilecek yerleri kart kart gör, beğendiklerin için yürüme rotası çıkar.",
   "modeRouteTitle": "Yola çıkıyorum",
   "modeRouteDetail": "Nereden nereye gittiğini söyle, yol üstündeki yerleri sırayla göster.",
+  "modeLikedTitle": "Beğendiğim yerler",
+  "modeLikedDetail": "Daha önce beğendiklerinden seç, onlarla ayrı bir plan kur.",
 
   "cityPickerTitle": "Nereyi gezeceksin?",
   "cityPickerSubtitle": "Şehri seç, kartları kaydırarak planını çıkar.",
@@ -43,10 +45,6 @@
   "deckActionLike": "Plana ekle",
   "deckDetail": "Ayrıntı",
   "deckDetailSemantics": "Ayrıntıları gör",
-  "deckLikedSemantics": "{count} beğenilen yer, plana geç",
-  "@deckLikedSemantics": {
-    "placeholders": { "count": { "type": "int" } }
-  },
   "deckAlreadySent": "Bu kaydırma zaten gönderildi",
   "deckUndoFailed": "Geri alınamadı, bağlantını kontrol et",
   "deckFinishedTitle": "Deste bitti",
@@ -57,6 +55,11 @@
   "deckEmptyTitle": "Burada henüz içerik yok",
   "deckEmptyDetail": "Bu şehir için gösterilebilecek yer bulunamadı. Başka bir şehir seçebilirsin.",
   "deckCreatePlan": "Planı oluştur",
+  "deckCreateTripPill": "{count, plural, =1{Plan kur · 1} other{Plan kur · {count}}}",
+  "@deckCreateTripPill": {
+    "description": "Deste ekranının üstündeki plan kurma düğmesi; sayı bu destede beğenilen yer sayısı.",
+    "placeholders": { "count": { "type": "int" } }
+  },
   "deckDetourLabel": "{distance} sapma",
   "@deckDetourLabel": {
     "placeholders": { "distance": { "type": "String" } }

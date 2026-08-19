@@ -140,10 +140,16 @@ class _TripMapState extends State<TripMap> {
     String sourceId,
     Map<String, dynamic> data,
   ) async {
+    final featureCount = (data['features'] as List).length;
+
     try {
       await controller.setGeoJsonSource(sourceId, data).timeout(_timeout);
-    } on PlatformException {
+      debugPrint('[rota haritası] $sourceId güncellendi ($featureCount özellik)');
+    } on PlatformException catch (error) {
+      debugPrint('[rota haritası] $sourceId güncellenemedi (${error.message}),'
+          ' ekleniyor');
       await controller.addGeoJsonSource(sourceId, data).timeout(_timeout);
+      debugPrint('[rota haritası] $sourceId eklendi ($featureCount özellik)');
     }
   }
 

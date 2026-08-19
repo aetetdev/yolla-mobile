@@ -41,6 +41,13 @@ class L10nTr extends L10n {
       'Nereden nereye gittiğini söyle, yol üstündeki yerleri sırayla göster.';
 
   @override
+  String get modeLikedTitle => 'Beğendiğim yerler';
+
+  @override
+  String get modeLikedDetail =>
+      'Daha önce beğendiklerinden seç, onlarla ayrı bir plan kur.';
+
+  @override
   String get cityPickerTitle => 'Nereyi gezeceksin?';
 
   @override
@@ -100,11 +107,6 @@ class L10nTr extends L10n {
   String get deckDetailSemantics => 'Ayrıntıları gör';
 
   @override
-  String deckLikedSemantics(int count) {
-    return '$count beğenilen yer, plana geç';
-  }
-
-  @override
   String get deckAlreadySent => 'Bu kaydırma zaten gönderildi';
 
   @override
@@ -127,6 +129,17 @@ class L10nTr extends L10n {
 
   @override
   String get deckCreatePlan => 'Planı oluştur';
+
+  @override
+  String deckCreateTripPill(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Plan kur · $count',
+      one: 'Plan kur · 1',
+    );
+    return '$_temp0';
+  }
 
   @override
   String deckDetourLabel(String distance) {

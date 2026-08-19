@@ -14,6 +14,8 @@
   "modeCityDetail": "Pick a city, browse places card by card, and get a walking route for the ones you like.",
   "modeRouteTitle": "I'm hitting the road",
   "modeRouteDetail": "Tell us where you're going, and we'll show what's along the way in order.",
+  "modeLikedTitle": "Places I liked",
+  "modeLikedDetail": "Pick from what you liked earlier and build a separate plan.",
 
   "cityPickerTitle": "Where to?",
   "cityPickerSubtitle": "Pick a city and swipe your way to a plan.",
@@ -34,7 +36,6 @@
   "deckActionLike": "Add to plan",
   "deckDetail": "Details",
   "deckDetailSemantics": "See details",
-  "deckLikedSemantics": "{count} liked places, go to plan",
   "deckAlreadySent": "This swipe was already sent",
   "deckUndoFailed": "Couldn't undo — check your connection",
   "deckFinishedTitle": "That's the whole deck",
@@ -42,6 +43,7 @@
   "deckEmptyTitle": "Nothing here yet",
   "deckEmptyDetail": "We couldn't find places to show for this city. Try another one.",
   "deckCreatePlan": "Build the plan",
+  "deckCreateTripPill": "{count, plural, =1{Build plan · 1} other{Build plan · {count}}}",
   "deckDetourLabel": "{distance} detour",
 
   "corridorTitle": "Hitting the road",
