@@ -67,6 +67,20 @@ flutter:
     # emülatör 10.0.2.2, gerçek cihaz adb reverse ile localhost kullanıyor.
     - assets/map/
 
+  # Marka yazı tipi. Yalnızca açılış ekranındaki ad ve sloganda kullanılıyor;
+  # uygulamanın geri kalanı platform yazı tipinde kalıyor.
+  #
+  # Tek dosya bütün kalınlıkları taşıyan bir değişken font (wght ekseni).
+  # Kalınlık `fontWeight` ile değil `fontVariations` ile seçiliyor: değişken
+  # fontta `fontWeight` tek başına varsayılan örneği çiziyor.
+  #
+  # SIL Open Font License 1.1 — lisans metni assets/fonts/OFL.txt içinde,
+  # dağıtımla birlikte gitmesi lisans şartı.
+  fonts:
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/Outfit[wght].ttf
+
 # Uygulama ikonu üretimi:  dart run flutter_launcher_icons
 #
 # Adaptive ikonun ön planı ayrı bir dosya: zemini şeffaflaştırılmış ve

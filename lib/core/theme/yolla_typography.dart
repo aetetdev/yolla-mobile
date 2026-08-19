@@ -11,32 +11,37 @@ import 'package:flutter/material.dart';
 abstract final class YollaText {
   static const _tight = -0.4;
 
-  /// Açılış ekranındaki marka yazı tipi.
+  /// Açılış ekranındaki marka yazı tipi (Outfit).
   ///
-  /// Yalnızca "Yolla" ve sloganda kullanılıyor; uygulamanın geri kalanı
-  /// bilinçli olarak platform yazı tipinde kalıyor. Tek bir ekranda marka
-  /// duruşu, geri kalanında sistemin okunaklılığı.
-  ///
-  /// Dosya `assets/fonts` altına konup `pubspec.yaml`'a tanıtılana kadar
-  /// Flutter sessizce platform yazı tipine düşüyor — ekran bozulmaz,
-  /// yalnızca marka görünümü devreye girmez.
+  /// **Yalnızca açılış ekranında** kullanılıyor: uygulamanın geri kalanı —
+  /// giriş/kayıt ekranı dahil — bilinçli olarak platform yazı tipinde kalıyor.
+  /// Tek bir ekranda marka duruşu, geri kalanında sistemin okunaklılığı.
   static const brandFamily = 'Outfit';
 
+  /// Değişken fontta kalınlık `fontWeight` ile seçilmiyor.
+  ///
+  /// Outfit tek dosyada bütün kalınlıkları `wght` ekseninde taşıyor;
+  /// `fontWeight` tek başına verildiğinde fontun varsayılan örneği
+  /// çiziliyor ve bütün kalınlıklar aynı görünüyor.
+  static List<FontVariation> _weight(double value) => [
+    FontVariation('wght', value),
+  ];
+
   /// Açılıştaki "Yolla" yazısı.
-  static const wordmark = TextStyle(
+  static final wordmark = TextStyle(
     fontFamily: brandFamily,
-    fontSize: 44,
+    fontVariations: _weight(600),
+    fontSize: 46,
     height: 1.1,
-    fontWeight: FontWeight.w600,
     letterSpacing: 1.5,
   );
 
   /// Açılıştaki slogan.
-  static const slogan = TextStyle(
+  static final slogan = TextStyle(
     fontFamily: brandFamily,
+    fontVariations: _weight(400),
     fontSize: 16,
     height: 1.3,
-    fontWeight: FontWeight.w400,
     letterSpacing: 0.2,
   );
 

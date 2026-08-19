@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -24,6 +25,16 @@ class SplashScreen extends StatefulWidget {
   /// Animasyonun tamamının süresi.
   static const duration = Duration(milliseconds: 2600);
 
+  /// Animasyon bittikten sonra ekranın durduğu süre.
+  ///
+  /// Son kare marka karesi: balonlar yerini almış, ad ve slogan okunuyor.
+  /// Bekleme olmadan o kare belirir belirmez kayboluyor ve kullanıcı
+  /// açılış ekranını göremiyor.
+  static const hold = Duration(milliseconds: 1100);
+
+  /// Açılışın toplam süresi.
+  static const total = Duration(milliseconds: 3700);
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -38,7 +49,13 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _controller.forward().whenComplete(() => widget.onFinished?.call());
+    unawaited(_run());
+  }
+
+  Future<void> _run() async {
+    await _controller.forward();
+    await Future<void>.delayed(SplashScreen.hold);
+    if (mounted) widget.onFinished?.call();
   }
 
   @override
@@ -61,7 +78,11 @@ class _SplashScreenState extends State<SplashScreen>
       widget.onFinished?.call();
     }
 
-    return ColoredBox(
+    // `Material`, `ColoredBox` değil: açılış yönlendiricinin üstüne ayrı bir
+    // katman olarak biniyor ve arada Material ağacı yok. Metin böyle bir
+    // ağaçta çizilince Flutter hata ayıklama derlemelerinde altına sarı çift
+    // çizgi koyuyor — ad ve slogan çizgili görünüyordu.
+    return Material(
       color: YollaColors.splashBackground,
       child: Stack(
         fit: StackFit.expand,
@@ -151,14 +172,14 @@ class _SplashPainter extends CustomPainter {
   /// olduğunda ekran düz bir desene dönüyor.
   static const _balloons =
       <(double x, double endY, double delay, double scale, int pattern, bool flag)>[
-        (0.17, 0.30, 0.00, 1.00, 0, false),
-        (0.78, 0.20, 0.06, 0.86, 1, false),
-        // Bayraklı balon ortada, iri ve en önde: göz önce buraya düşsün.
-        (0.47, 0.44, 0.14, 0.96, 0, true),
-        (0.90, 0.38, 0.24, 0.52, 2, false),
-        (0.05, 0.09, 0.30, 0.60, 3, false),
-        (0.66, 0.06, 0.40, 0.44, 4, false),
-        (0.30, 0.12, 0.48, 0.38, 1, false),
+        (0.15, 0.15, 0.00, 1.00, 0, false),
+        (0.81, 0.12, 0.05, 0.95, 1, false),
+        // Bayraklı balon ortada, en iri ve en önde: göz önce buraya düşsün.
+        (0.48, 0.38, 0.12, 1.10, 0, true),
+        (0.03, 0.46, 0.20, 0.70, 3, false),
+        (0.95, 0.44, 0.26, 0.72, 2, false),
+        (0.28, 0.01, 0.34, 0.60, 4, false),
+        (0.70, 0.00, 0.42, 0.55, 1, false),
       ];
 
   @override
@@ -245,7 +266,7 @@ class _SplashPainter extends CustomPainter {
       final sway = math.sin((eased + delay) * math.pi * 2) * size.width * 0.02;
       final center = Offset(size.width * x + sway, dy);
 
-      final radius = size.width * 0.135 * scale;
+      final radius = size.width * 0.20 * scale;
       final opacity = (eased < 0.15 ? eased / 0.15 : 1.0) * 0.95;
 
       _drawBalloon(canvas, center, radius, _patterns[pattern], flag, opacity);
@@ -260,21 +281,40 @@ class _SplashPainter extends CustomPainter {
     bool flag,
     double opacity,
   ) {
-    // Gövde: küre ile aşağı doğru daralan damla birleşimi.
+    // Gövde tek parça bir ters damla.
+    //
+    // Eskiden bir daire ile ayrı bir "damla" alt yolu üst üste konuyordu;
+    // ikisinin birleştiği yerde dairenin alt yayı içeride kalıyor ve balonun
+    // ortasında yay biçiminde bir kesik görünüyordu. Şimdi uçtan başlayıp
+    // kürenin çevresini dolaşan **tek** kapalı yol var, dolayısıyla iç kenar
+    // da yok.
+    final tipY = center.dy + radius * 1.95;
+
     final body = Path()
-      ..addOval(Rect.fromCircle(center: center, radius: radius))
-      ..moveTo(center.dx - radius * 0.82, center.dy + radius * 0.55)
-      ..quadraticBezierTo(
-        center.dx - radius * 0.30,
-        center.dy + radius * 1.75,
-        center.dx,
-        center.dy + radius * 1.9,
+      ..moveTo(center.dx, tipY)
+      // Sivri uçtan kürenin sol kenarına.
+      ..cubicTo(
+        center.dx - radius * 0.52,
+        center.dy + radius * 1.38,
+        center.dx - radius * 0.99,
+        center.dy + radius * 0.62,
+        center.dx - radius,
+        center.dy,
       )
-      ..quadraticBezierTo(
-        center.dx + radius * 0.30,
-        center.dy + radius * 1.75,
-        center.dx + radius * 0.82,
-        center.dy + radius * 0.55,
+      // Kürenin üst yarısı.
+      ..arcToPoint(
+        Offset(center.dx + radius, center.dy),
+        radius: Radius.circular(radius),
+        clockwise: true,
+      )
+      // Sağ kenardan uca geri.
+      ..cubicTo(
+        center.dx + radius * 0.99,
+        center.dy + radius * 0.62,
+        center.dx + radius * 0.52,
+        center.dy + radius * 1.38,
+        center.dx,
+        tipY,
       )
       ..close();
 
