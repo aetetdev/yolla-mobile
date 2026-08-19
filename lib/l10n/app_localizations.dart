@@ -841,11 +841,11 @@ abstract class L10n {
   /// **'{name} beğenilenlere eklendi'**
   String mapPinLiked(String name);
 
-  /// No description provided for @mapPinGoToLiked.
+  /// No description provided for @mapPinCreateTrip.
   ///
   /// In tr, this message translates to:
-  /// **'Beğendiklerim'**
-  String get mapPinGoToLiked;
+  /// **'Plan kur'**
+  String get mapPinCreateTrip;
 
   /// No description provided for @contributePhotoTitle.
   ///

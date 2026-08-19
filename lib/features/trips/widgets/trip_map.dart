@@ -53,6 +53,15 @@ class _TripMapState extends State<TripMap> {
   MapLibreMapController? _controller;
   String? _style;
 
+  /// Kaynaklar ve katmanlar stile kurulmuş durumda mı.
+  ///
+  /// Stil her yüklendiğinde MapLibre kullanıcı kaynaklarını ve katmanlarını
+  /// siliyor, o yüzden `onStyleLoadedCallback` bunu sıfırlıyor ve her şey
+  /// baştan kuruluyor. Keşif haritası da aynı döngüyü kullanıyor; rota
+  /// haritasında bu döngü yoktu ve kaynak yazılıyor, katman "zaten var"
+  /// diyor, ekranda hiçbir şey çıkmıyordu.
+  bool _layersReady = false;
+
   List<GeoPoint> _route = const [];
   List<GeoPoint> _stops = const [];
   GeoBounds? _bounds;
@@ -111,13 +120,18 @@ class _TripMapState extends State<TripMap> {
     if (controller == null) return;
 
     try {
-      await _write(controller, _routeSourceId, _routeLineJson());
-      await _write(controller, _stopSourceId, _stopPointsJson());
-      // Katmanlar da burada tazeleniyor. Eskiden yalnızca stil yüklenirken
-      // ekleniyordu: ilk eklemede bir katman düşerse (ya da rota sonradan
-      // hesaplanıp geldiğinde katman henüz yoksa) kaynak doluyor ama ekranda
-      // hiçbir şey çıkmıyordu. Var olan katmanı yeniden eklemek zararsız.
-      await _addLayers(controller);
+      // Katmanlar kurulu değilse kaynaklar da yok sayılıyor: ikisi stille
+      // birlikte gidiyor, ayrı ayrı yaşamıyorlar.
+      if (_layersReady) {
+        await _update(controller, _routeSourceId, _routeLineJson());
+        await _update(controller, _stopSourceId, _stopPointsJson());
+      } else {
+        await _create(controller, _routeSourceId, _routeLineJson());
+        await _create(controller, _stopSourceId, _stopPointsJson());
+        await _addLayers(controller);
+        _layersReady = true;
+      }
+
       await _fitCamera(controller);
     } on TimeoutException {
       debugPrint('[rota haritası] çizim zaman aşımına uğradı');
@@ -126,30 +140,28 @@ class _TripMapState extends State<TripMap> {
     }
   }
 
-  /// Kaynağı günceller; henüz yoksa ekler.
+  /// Var olan kaynağın verisini değiştirir.
+  Future<void> _update(
+    MapLibreMapController controller,
+    String sourceId,
+    Map<String, dynamic> data,
+  ) => controller.setGeoJsonSource(sourceId, data).timeout(_timeout);
+
+  /// Kaynağı kurar; stil yeniden yüklenmeden bayrak sıfırlandıysa günceller.
   ///
-  /// Bayrak tutmak yerine hatayı yakalamak daha dayanıklı: stil yeniden
-  /// yüklendiğinde kaynaklar gidiyor ama bayrak bunu bilmiyor.
-  ///
-  /// Önce **güncelleme** deneniyor. Ters sırada, var olan bir kaynağa
-  /// `addGeoJsonSource` çağrıldığında yerli taraf kaynağı değiştirmiyor;
-  /// hata da vermezse veri sessizce eski halinde kalıyor ve rota sonradan
-  /// hesaplandığında haritaya hiç düşmüyor.
-  Future<void> _write(
+  /// İkinci kez eklemek platform tarafında hata veriyor; yakalanmazsa katman
+  /// kurma adımına hiç gelinmiyor ve harita boş kalıyor.
+  Future<void> _create(
     MapLibreMapController controller,
     String sourceId,
     Map<String, dynamic> data,
   ) async {
-    final featureCount = (data['features'] as List).length;
-
     try {
-      await controller.setGeoJsonSource(sourceId, data).timeout(_timeout);
-      debugPrint('[rota haritası] $sourceId güncellendi ($featureCount özellik)');
-    } on PlatformException catch (error) {
-      debugPrint('[rota haritası] $sourceId güncellenemedi (${error.message}),'
-          ' ekleniyor');
       await controller.addGeoJsonSource(sourceId, data).timeout(_timeout);
-      debugPrint('[rota haritası] $sourceId eklendi ($featureCount özellik)');
+    } on PlatformException catch (error) {
+      debugPrint('[rota haritası] $sourceId eklenemedi, güncelleniyor:'
+          ' ${error.message}');
+      await controller.setGeoJsonSource(sourceId, data).timeout(_timeout);
     }
   }
 
@@ -318,21 +330,11 @@ class _TripMapState extends State<TripMap> {
                     zoom: 9,
                   ),
                   onMapCreated: _onMapCreated,
-                  onStyleLoadedCallback: () async {
-                    final controller = _controller;
-                    if (controller == null) return;
-                    await _write(
-                      controller,
-                      _routeSourceId,
-                      _routeLineJson(),
-                    );
-                    await _write(
-                      controller,
-                      _stopSourceId,
-                      _stopPointsJson(),
-                    );
-                    await _addLayers(controller);
-                    await _fitCamera(controller);
+                  onStyleLoadedCallback: () {
+                    // Stil yeniden yüklenince kaynaklar ve katmanlar gidiyor;
+                    // baştan kurulmalı.
+                    _layersReady = false;
+                    unawaited(_draw());
                   },
                   // Özet görünümü; kullanıcı planı buradan sürmüyor.
                   rotateGesturesEnabled: false,

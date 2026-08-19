@@ -286,7 +286,7 @@ class _MapPageState extends ConsumerState<MapPage> {
         SnackBar(
           content: Text(l10n.mapPinLiked(pin.name)),
           action: SnackBarAction(
-            label: l10n.mapPinGoToLiked,
+            label: l10n.mapPinCreateTrip,
             onPressed: _openPlanning,
           ),
         ),

@@ -145,7 +145,7 @@
   "@mapPinLiked": {
     "placeholders": { "name": { "type": "String" } }
   },
-  "mapPinGoToLiked": "Your likes",
+  "mapPinCreateTrip": "Build plan",
 
   "contributePhotoTitle": "This place has no photo",
   "contributePhotoDetail": "If you have been here, add a photo; it goes live once approved.",

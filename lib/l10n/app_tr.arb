@@ -185,7 +185,7 @@
   "@mapPinLiked": {
     "placeholders": { "name": { "type": "String" } }
   },
-  "mapPinGoToLiked": "Beğendiklerim",
+  "mapPinCreateTrip": "Plan kur",
 
   "contributePhotoTitle": "Bu yerin fotoğrafı yok",
   "contributePhotoDetail": "Buraya gittiysen bir fotoğraf ekle; onaylandığında yayına girer.",

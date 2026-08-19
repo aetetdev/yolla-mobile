@@ -446,7 +446,7 @@ class L10nTr extends L10n {
   }
 
   @override
-  String get mapPinGoToLiked => 'Beğendiklerim';
+  String get mapPinCreateTrip => 'Plan kur';
 
   @override
   String get contributePhotoTitle => 'Bu yerin fotoğrafı yok';
