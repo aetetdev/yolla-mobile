@@ -819,4 +819,84 @@ class L10nEn extends L10n {
   String durationHoursMinutes(int hours, int minutes) {
     return '$hours h $minutes min';
   }
+
+  @override
+  String get suggestTitle => 'Suggest a place';
+
+  @override
+  String get suggestIntro =>
+      'Know a place that isn\'t in the catalogue? Add it. Your suggestion goes live once a moderator approves it.';
+
+  @override
+  String suggestLocation(String latitude, String longitude) {
+    return 'Selected location: $latitude, $longitude';
+  }
+
+  @override
+  String get suggestNameLabel => 'Place name';
+
+  @override
+  String get suggestNameHint => 'For example: Bird Sanctuary Viewpoint';
+
+  @override
+  String get suggestCategoryLabel => 'Category';
+
+  @override
+  String get suggestDescriptionLabel => 'Short description (optional)';
+
+  @override
+  String get suggestDescriptionHint => 'What makes this place worth visiting?';
+
+  @override
+  String get suggestSend => 'Send suggestion';
+
+  @override
+  String get suggestSent => 'Got it — your suggestion is in the review queue.';
+
+  @override
+  String get suggestModerationNote =>
+      'Suggestions go live after moderator approval. An approved suggestion earns coins.';
+
+  @override
+  String get suggestStatusPending => 'In review';
+
+  @override
+  String get suggestStatusApproved => 'Live';
+
+  @override
+  String get suggestStatusRejected => 'Rejected';
+
+  @override
+  String suggestCoinsEarned(int count) {
+    return 'You earned $count coins';
+  }
+
+  @override
+  String get suggestOpenPlace => 'Open place';
+
+  @override
+  String get mySuggestionsTitle => 'Places I suggested';
+
+  @override
+  String get mySuggestionsEmptyTitle => 'No suggestions yet';
+
+  @override
+  String get mySuggestionsEmptyDetail =>
+      'Long-press a spot on the map to suggest a place that isn\'t in the catalogue.';
+
+  @override
+  String get mapSuggestTitle => 'Is there a place here?';
+
+  @override
+  String get mapSuggestDetail =>
+      'You can suggest a place that isn\'t in the catalogue here.';
+
+  @override
+  String get mapSuggestConfirm => 'Suggest a place';
+
+  @override
+  String get profileSuggestions => 'Places I suggested';
+
+  @override
+  String get profileSuggestionsDetail => 'What you sent and where it stands';
 }

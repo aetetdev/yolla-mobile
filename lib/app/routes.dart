@@ -26,6 +26,16 @@ abstract final class Routes {
   /// Coin bakiyesi, premium avantajları ve premium alma.
   static const premium = '/premium';
 
+  /// Haritada seçilen noktaya yeni yer önerme formu.
+  static const suggestPlace = '/yer-oner';
+
+  /// Kullanıcının önerdiği yerler ve durumları.
+  static const mySuggestions = '/onerilerim';
+
+  /// Konum adresle taşınıyor: form onu değiştirmiyor, yalnızca gösteriyor.
+  static String suggestPlaceAt(double latitude, double longitude) =>
+      '$suggestPlace?enlem=$latitude&boylam=$longitude';
+
   static String deckFor(int cityId) => '/kesfet/sehir/$cityId';
 
   /// Beğenilenler ekranının adresi.

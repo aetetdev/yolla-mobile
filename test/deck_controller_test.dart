@@ -137,6 +137,40 @@ void main() {
       expect(state.pendingSwipes, 1);
     });
 
+    test('eşzamanlı iki gönderim kaydırmaları bozmuyor', () async {
+      // Eşiği geçen kaydırma kendiliğinden gönderim başlatıyor; kullanıcı o
+      // sırada "plan kur"a basınca (ya da uygulama arka plana alınınca)
+      // ikinci bir gönderim araya giriyordu. İkisi de kuyruğun başından
+      // silmeye çalışıp `RangeError` atıyor, kaydırmalar kayboluyordu.
+      final fake = _FakeDiscovery(
+        pages: [
+          FeedPage(
+            items: [for (var i = 1; i <= 30; i++) _card(i)],
+            hasMore: false,
+          ),
+        ],
+      );
+      final container = _container(fake);
+      final notifier = container.read(deckControllerProvider.notifier);
+      await notifier.open(const CityDeckSource(_city));
+
+      for (var i = 0; i < 12; i++) {
+        notifier.swipe(SwipeDirection.like);
+      }
+
+      await notifier.flushNow();
+      await notifier.flushNow();
+
+      final state = container.read(deckControllerProvider);
+      expect(state.pendingSwipes, 0, reason: 'kuyruk boşalmalı');
+      expect(
+        fake.sentBatches.expand((b) => b).length,
+        12,
+        reason: 'her kaydırma tam bir kez gönderilmeli',
+      );
+      expect(state.likedIds.length, 12);
+    });
+
     test('beğeniler oturuma ait: eski beğeniler sayılmaz', () async {
       // Kullanıcı daha önce 40 yer beğenmiş (mesela Antalya gezisinde).
       // Bu destede beğendiği tek yer, kurulacak planın tek adayı olmalı.

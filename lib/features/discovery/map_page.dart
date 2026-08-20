@@ -216,6 +216,42 @@ class _MapPageState extends ConsumerState<MapPage> {
     if (_selected != null) setState(() => _selected = null);
   }
 
+  /// Basılı tutulan noktaya yeni yer önerme.
+  ///
+  /// Katalog OpenStreetMap'ten geliyor; orada olmayan yer bizde de yok. Giriş
+  /// noktası harita çünkü öneri her şeyden önce bir konum: kullanıcı koordinat
+  /// yazmıyor, gördüğü yere basıyor.
+  ///
+  /// Onay isteniyor: uzun basma kaydırma sırasında kazara olabiliyor ve
+  /// kullanıcıyı habersiz bir forma atmak istemiyoruz.
+  Future<void> _onMapLongClick(Point<double> point, LatLng latLng) async {
+    final l10n = L10n.of(context);
+
+    final onaylandi = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.mapSuggestTitle),
+        content: Text(l10n.mapSuggestDetail),
+        actions: [
+          TextButton(
+            onPressed: () => context.pop(false),
+            child: Text(l10n.commonCancel),
+          ),
+          FilledButton(
+            onPressed: () => context.pop(true),
+            child: Text(l10n.mapSuggestConfirm),
+          ),
+        ],
+      ),
+    );
+
+    if (onaylandi != true || !mounted) return;
+
+    await context.push(
+      Routes.suggestPlaceAt(latLng.latitude, latLng.longitude),
+    );
+  }
+
   /// Dokunulan noktanın parmak payı içindeki işaret.
   ///
   /// Karşılaştırma derece değil **ekran pikseli** üzerinden yapılıyor: bir
@@ -465,6 +501,7 @@ class _MapPageState extends ConsumerState<MapPage> {
       },
       onCameraIdle: _onCameraIdle,
       onMapClick: _onMapClick,
+      onMapLongClick: _onMapLongClick,
       // Pusula ve ölçek yeterli; eğme/döndürme keşif haritasında kullanıcıyı
       // kaybettiriyor.
       rotateGesturesEnabled: false,

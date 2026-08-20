@@ -272,11 +272,39 @@ class DeckController extends Notifier<DeckState> {
     _flushTimer = Timer(_flushDelay, () => unawaited(_flush()));
   }
 
+  /// Süren gönderim; ikinci bir gönderimin araya girmesini engelliyor.
+  ///
+  /// İki gönderim aynı anda çalıştığında ikisi de kuyruğun başından aynı
+  /// kayıtları alıp, sunucu yanıtı gelince ikisi de kuyruğun başından
+  /// siliyordu: ilki sildikten sonra kuyruk kısaldığı için ikincinin silme
+  /// aralığı taşıyor ve `RangeError` atıyordu. Hata `ApiException`
+  /// yakalayıcısını aştığı için kaydırmalar ya kayboluyor ya iki kez
+  /// gidiyordu. Eşiğin kendiliğinden tetiklediği gönderimle `flushNow`
+  /// çakıştığında oluyor: uygulama arka plana alınırken ya da eşiği geçtikten
+  /// hemen sonra "plan kur"a basıldığında.
+  Future<void>? _inFlight;
+
   /// Biriken kaydırmaları gönderir.
   ///
   /// Başarısız olursa kayıtlar kuyrukta kalır ve bir sonraki denemede tekrar
   /// gönderilir — kullanıcının kaydırması kaybolmaz.
-  Future<void> _flush() async {
+  Future<void> _flush() {
+    // Süren gönderim varsa sıraya giriliyor: peş peşe çalışıyorlar, iç içe
+    // değil.
+    final running = _inFlight;
+    if (running != null) {
+      return _inFlight = running.then((_) => _flushOnce());
+    }
+
+    final started = _flushOnce();
+    _inFlight = started;
+
+    return started.whenComplete(() {
+      if (identical(_inFlight, started)) _inFlight = null;
+    });
+  }
+
+  Future<void> _flushOnce() async {
     _flushTimer?.cancel();
     if (_pending.isEmpty) return;
 
@@ -287,7 +315,14 @@ class DeckController extends Notifier<DeckState> {
     try {
       await _discovery.recordSwipes(batch);
 
-      _pending.removeRange(0, batch.length);
+      // Gönderilen kayıtlar tek tek çıkarılıyor, kuyruğun başından sayıyla
+      // değil: bu arada geri alma kuyruktan bir kayıt almış olabilir ve
+      // aralıkla silmek yanlış kayda denk geliyor. `remove` eşleşenin
+      // **ilkini** çıkardığı için tekrar eden kayıtlar da doğru sayıda
+      // düşüyor.
+      for (final record in batch) {
+        _pending.remove(record);
+      }
 
       if (ref.mounted) {
         // Sunucunun döndürdüğü `totalLiked` bilinçli olarak kullanılmıyor:

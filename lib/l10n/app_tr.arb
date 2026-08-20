@@ -332,5 +332,49 @@
       "hours": { "type": "int" },
       "minutes": { "type": "int" }
     }
-  }
+  },
+
+  "suggestTitle": "Yeni yer öner",
+  "suggestIntro": "Katalogda olmayan bir yer biliyorsan ekleyelim. Önerin moderatör onayından sonra yayına giriyor.",
+  "suggestLocation": "Seçilen konum: {latitude}, {longitude}",
+  "@suggestLocation": {
+    "description": "Haritada seçilen noktanın koordinatları.",
+    "placeholders": {
+      "latitude": {
+        "type": "String"
+      },
+      "longitude": {
+        "type": "String"
+      }
+    }
+  },
+  "suggestNameLabel": "Yerin adı",
+  "suggestNameHint": "Örnek: Kuşcenneti Seyir Terası",
+  "suggestCategoryLabel": "Kategori",
+  "suggestDescriptionLabel": "Kısa tanıtım (isteğe bağlı)",
+  "suggestDescriptionHint": "Burayı gezmeye değer kılan ne?",
+  "suggestSend": "Öneriyi gönder",
+  "suggestSent": "Önerin alındı, incelemeye gönderildi.",
+  "suggestModerationNote": "Öneriler moderatör onayından sonra yayına giriyor. Onaylanan öneri coin kazandırıyor.",
+  "suggestStatusPending": "İncelemede",
+  "suggestStatusApproved": "Yayında",
+  "suggestStatusRejected": "Reddedildi",
+  "suggestCoinsEarned": "{count} coin kazandın",
+  "@suggestCoinsEarned": {
+    "description": "Onaylanan öneri karşılığı yazılan coin.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "suggestOpenPlace": "Yeri aç",
+  "mySuggestionsTitle": "Önerdiğim yerler",
+  "mySuggestionsEmptyTitle": "Henüz yer önermedin",
+  "mySuggestionsEmptyDetail": "Haritada bir noktayı basılı tutarak katalogda olmayan bir yeri önerebilirsin.",
+  "mapSuggestTitle": "Burada bir yer mi var?",
+  "mapSuggestDetail": "Katalogda olmayan bir yeri bu noktaya önerebilirsin.",
+  "mapSuggestConfirm": "Yer öner",
+  "profileSuggestions": "Önerdiğim yerler",
+  "profileSuggestionsDetail": "Gönderdiğin yerler ve durumları"
 }

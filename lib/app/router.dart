@@ -13,7 +13,9 @@ import '../features/place/place_detail_page.dart';
 import '../features/profile/attributions_page.dart';
 import '../features/profile/auth_page.dart';
 import '../features/profile/profile_page.dart';
+import '../features/rewards/my_suggestions_page.dart';
 import '../features/rewards/premium_page.dart';
+import '../features/rewards/suggest_place_page.dart';
 import '../features/session/auth_state.dart';
 import '../features/trips/liked_page.dart';
 import '../features/trips/trip_detail_page.dart';
@@ -155,6 +157,26 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootKey,
         path: Routes.premium,
         builder: (context, state) => const PremiumPage(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: Routes.suggestPlace,
+        builder: (context, state) {
+          // Koordinat adresten geliyor; bozuksa Türkiye'nin ortası. Formu
+          // hatayla açmaktansa kullanıcı geri dönüp haritada yeniden
+          // basabilsin.
+          final query = state.uri.queryParameters;
+
+          return SuggestPlacePage(
+            latitude: double.tryParse(query['enlem'] ?? '') ?? 39.0,
+            longitude: double.tryParse(query['boylam'] ?? '') ?? 35.0,
+          );
+        },
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: Routes.mySuggestions,
+        builder: (context, state) => const MySuggestionsPage(),
       ),
     ],
   );

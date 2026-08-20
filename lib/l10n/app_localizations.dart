@@ -1470,6 +1470,150 @@ abstract class L10n {
   /// In tr, this message translates to:
   /// **'{hours} sa {minutes} dk'**
   String durationHoursMinutes(int hours, int minutes);
+
+  /// No description provided for @suggestTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni yer öner'**
+  String get suggestTitle;
+
+  /// No description provided for @suggestIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katalogda olmayan bir yer biliyorsan ekleyelim. Önerin moderatör onayından sonra yayına giriyor.'**
+  String get suggestIntro;
+
+  /// Haritada seçilen noktanın koordinatları.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilen konum: {latitude}, {longitude}'**
+  String suggestLocation(String latitude, String longitude);
+
+  /// No description provided for @suggestNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yerin adı'**
+  String get suggestNameLabel;
+
+  /// No description provided for @suggestNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Örnek: Kuşcenneti Seyir Terası'**
+  String get suggestNameHint;
+
+  /// No description provided for @suggestCategoryLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori'**
+  String get suggestCategoryLabel;
+
+  /// No description provided for @suggestDescriptionLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kısa tanıtım (isteğe bağlı)'**
+  String get suggestDescriptionLabel;
+
+  /// No description provided for @suggestDescriptionHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Burayı gezmeye değer kılan ne?'**
+  String get suggestDescriptionHint;
+
+  /// No description provided for @suggestSend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneriyi gönder'**
+  String get suggestSend;
+
+  /// No description provided for @suggestSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerin alındı, incelemeye gönderildi.'**
+  String get suggestSent;
+
+  /// No description provided for @suggestModerationNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneriler moderatör onayından sonra yayına giriyor. Onaylanan öneri coin kazandırıyor.'**
+  String get suggestModerationNote;
+
+  /// No description provided for @suggestStatusPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'İncelemede'**
+  String get suggestStatusPending;
+
+  /// No description provided for @suggestStatusApproved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yayında'**
+  String get suggestStatusApproved;
+
+  /// No description provided for @suggestStatusRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi'**
+  String get suggestStatusRejected;
+
+  /// Onaylanan öneri karşılığı yazılan coin.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} coin kazandın'**
+  String suggestCoinsEarned(int count);
+
+  /// No description provided for @suggestOpenPlace.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeri aç'**
+  String get suggestOpenPlace;
+
+  /// No description provided for @mySuggestionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerdiğim yerler'**
+  String get mySuggestionsTitle;
+
+  /// No description provided for @mySuggestionsEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz yer önermedin'**
+  String get mySuggestionsEmptyTitle;
+
+  /// No description provided for @mySuggestionsEmptyDetail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritada bir noktayı basılı tutarak katalogda olmayan bir yeri önerebilirsin.'**
+  String get mySuggestionsEmptyDetail;
+
+  /// No description provided for @mapSuggestTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Burada bir yer mi var?'**
+  String get mapSuggestTitle;
+
+  /// No description provided for @mapSuggestDetail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katalogda olmayan bir yeri bu noktaya önerebilirsin.'**
+  String get mapSuggestDetail;
+
+  /// No description provided for @mapSuggestConfirm.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yer öner'**
+  String get mapSuggestConfirm;
+
+  /// No description provided for @profileSuggestions.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerdiğim yerler'**
+  String get profileSuggestions;
+
+  /// No description provided for @profileSuggestionsDetail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderdiğin yerler ve durumları'**
+  String get profileSuggestionsDetail;
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {

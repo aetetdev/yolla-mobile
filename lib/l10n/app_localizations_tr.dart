@@ -819,4 +819,84 @@ class L10nTr extends L10n {
   String durationHoursMinutes(int hours, int minutes) {
     return '$hours sa $minutes dk';
   }
+
+  @override
+  String get suggestTitle => 'Yeni yer öner';
+
+  @override
+  String get suggestIntro =>
+      'Katalogda olmayan bir yer biliyorsan ekleyelim. Önerin moderatör onayından sonra yayına giriyor.';
+
+  @override
+  String suggestLocation(String latitude, String longitude) {
+    return 'Seçilen konum: $latitude, $longitude';
+  }
+
+  @override
+  String get suggestNameLabel => 'Yerin adı';
+
+  @override
+  String get suggestNameHint => 'Örnek: Kuşcenneti Seyir Terası';
+
+  @override
+  String get suggestCategoryLabel => 'Kategori';
+
+  @override
+  String get suggestDescriptionLabel => 'Kısa tanıtım (isteğe bağlı)';
+
+  @override
+  String get suggestDescriptionHint => 'Burayı gezmeye değer kılan ne?';
+
+  @override
+  String get suggestSend => 'Öneriyi gönder';
+
+  @override
+  String get suggestSent => 'Önerin alındı, incelemeye gönderildi.';
+
+  @override
+  String get suggestModerationNote =>
+      'Öneriler moderatör onayından sonra yayına giriyor. Onaylanan öneri coin kazandırıyor.';
+
+  @override
+  String get suggestStatusPending => 'İncelemede';
+
+  @override
+  String get suggestStatusApproved => 'Yayında';
+
+  @override
+  String get suggestStatusRejected => 'Reddedildi';
+
+  @override
+  String suggestCoinsEarned(int count) {
+    return '$count coin kazandın';
+  }
+
+  @override
+  String get suggestOpenPlace => 'Yeri aç';
+
+  @override
+  String get mySuggestionsTitle => 'Önerdiğim yerler';
+
+  @override
+  String get mySuggestionsEmptyTitle => 'Henüz yer önermedin';
+
+  @override
+  String get mySuggestionsEmptyDetail =>
+      'Haritada bir noktayı basılı tutarak katalogda olmayan bir yeri önerebilirsin.';
+
+  @override
+  String get mapSuggestTitle => 'Burada bir yer mi var?';
+
+  @override
+  String get mapSuggestDetail =>
+      'Katalogda olmayan bir yeri bu noktaya önerebilirsin.';
+
+  @override
+  String get mapSuggestConfirm => 'Yer öner';
+
+  @override
+  String get profileSuggestions => 'Önerdiğim yerler';
+
+  @override
+  String get profileSuggestionsDetail => 'Gönderdiğin yerler ve durumları';
 }

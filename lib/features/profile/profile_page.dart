@@ -51,6 +51,13 @@ class ProfilePage extends ConsumerWidget {
             ),
             const SizedBox(height: Space.sm),
             _Tile(
+              icon: Icons.add_location_alt_outlined,
+              title: l10n.profileSuggestions,
+              detail: l10n.profileSuggestionsDetail,
+              onTap: () => context.push(Routes.mySuggestions),
+            ),
+            const SizedBox(height: Space.sm),
+            _Tile(
               icon: Icons.copyright_outlined,
               title: l10n.profileSources,
               detail: l10n.profileSourcesDetail,
