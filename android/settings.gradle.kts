@@ -22,6 +22,10 @@ plugins {
     id("com.android.application") version "9.0.1" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
 
+    // `google-services.json` dosyasını okuyup Firebase yapılandırmasını
+    // derlemeye gömüyor. Uygulanması `app/build.gradle.kts` içinde.
+    id("com.google.gms.google-services") version "4.4.4" apply false
+
     // Gerekli JDK'yı Gradle kendisi indirir (~/.gradle/jdks).
     //
     // `maplibre_gl` Java 21 hedefliyor, makinede JAVA_HOME olarak JDK 17 var ve

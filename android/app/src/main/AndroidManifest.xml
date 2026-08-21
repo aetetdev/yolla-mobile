@@ -8,6 +8,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!--
+      Android 13'ten itibaren bildirim göstermek çalışma anında izin istiyor.
+      `firebase_messaging` eklentisi bunu zaten birleştiriyor; burada açıkça
+      yazılması uygulamanın neye izin istediğinin tek yerden okunabilmesi için.
+    -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
     <application
         android:label="yolla"
         android:name="${applicationName}"

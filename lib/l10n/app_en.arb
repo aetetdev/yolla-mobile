@@ -300,5 +300,41 @@
   "mapSuggestDetail": "You can suggest a place that isn't in the catalogue here.",
   "mapSuggestConfirm": "Suggest a place",
   "profileSuggestions": "Places I suggested",
-  "profileSuggestionsDetail": "What you sent and where it stands"
+  "profileSuggestionsDetail": "What you sent and where it stands",
+
+  "profileNotifications": "Notifications",
+  "profileNotificationsDetail": "How your photos and suggestions turned out",
+  "notificationsTitle": "Notifications",
+  "notificationsEmptyTitle": "No notifications yet",
+  "notificationsEmptyDetail": "When a photo or place you sent is reviewed, the outcome shows up here.",
+  "notificationsNew": "New",
+  "notificationsOpenPlace": "Open place",
+  "timeJustNow": "just now",
+  "timeMinutesAgo": "{count} min ago",
+  "@timeMinutesAgo": {
+    "description": "Time of events newer than an hour.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} h ago",
+  "@timeHoursAgo": {
+    "description": "Time of events newer than a day.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} d ago",
+  "@timeDaysAgo": {
+    "description": "Time of events newer than a week.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

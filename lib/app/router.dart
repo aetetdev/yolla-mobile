@@ -9,6 +9,7 @@ import '../features/discovery/deck_source.dart';
 import '../features/discovery/map_page.dart';
 import '../features/discovery/mode_page.dart';
 import '../features/geo/city_picker_page.dart';
+import '../features/notifications/notifications_page.dart';
 import '../features/place/place_detail_page.dart';
 import '../features/profile/attributions_page.dart';
 import '../features/profile/auth_page.dart';
@@ -177,6 +178,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootKey,
         path: Routes.mySuggestions,
         builder: (context, state) => const MySuggestionsPage(),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootKey,
+        path: Routes.notifications,
+        builder: (context, state) => const NotificationsPage(),
       ),
     ],
   );

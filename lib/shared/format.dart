@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
 
@@ -28,5 +28,29 @@ abstract final class Format {
     final value = (meters / 1000).toStringAsFixed(1);
     final isTurkish = Localizations.localeOf(context).languageCode == 'tr';
     return '${isTurkish ? value.replaceAll('.', ',') : value} km';
+  }
+
+  /// "az önce" · "12 dk önce" · "3 sa önce" · "2 gün önce" · "20.08.2026"
+  ///
+  /// Bir haftadan eskisini "23 gün önce" diye anlatmak okuyanı saydırıyor;
+  /// o noktada tarihin kendisi daha anlaşılır.
+  ///
+  /// Tarih biçimi [MaterialLocalizations]'tan geliyor — `intl`'in
+  /// `DateFormat`'ı Türkçe için ayrıca yerel veri yüklenmesini istiyor,
+  /// tek satırlık iş için o kurulum fazla.
+  static String relativeTime(BuildContext context, DateTime time) {
+    final l10n = L10n.of(context);
+    final local = time.toLocal();
+
+    // Sunucu saati birkaç saniye ileride olabilir; eksi fark "az önce"ye
+    // düşüyor, "-1 dk önce" yazmıyor.
+    final elapsed = DateTime.now().difference(local);
+
+    if (elapsed.inMinutes < 1) return l10n.timeJustNow;
+    if (elapsed.inHours < 1) return l10n.timeMinutesAgo(elapsed.inMinutes);
+    if (elapsed.inDays < 1) return l10n.timeHoursAgo(elapsed.inHours);
+    if (elapsed.inDays < 7) return l10n.timeDaysAgo(elapsed.inDays);
+
+    return MaterialLocalizations.of(context).formatShortDate(local);
   }
 }

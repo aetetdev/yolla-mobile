@@ -97,6 +97,13 @@ class ApiClient {
     cancelToken: cancelToken,
   );
 
+  /// Yerine koyma. Gövdesiz yanıt veren uçlarda `decode: (_) {}` verilir.
+  Future<ApiEnvelope<T>> put<T>(
+    String path, {
+    Object? body,
+    required T Function(Object? json) decode,
+  }) => _send(path, method: 'PUT', body: body, decode: decode);
+
   Future<ApiEnvelope<T>> patch<T>(
     String path, {
     Object? body,

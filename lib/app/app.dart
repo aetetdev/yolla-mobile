@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme/yolla_theme.dart';
+import '../features/notifications/notification_service.dart';
+import '../features/notifications/push_service.dart';
 import '../l10n/app_localizations.dart';
 import '../features/splash/splash_screen.dart';
 import 'router.dart';
+import 'routes.dart';
 
 class YollaApp extends ConsumerStatefulWidget {
   const YollaApp({super.key});
@@ -20,6 +25,48 @@ class _YollaAppState extends ConsumerState<YollaApp> {
   /// oturum okuması çalışmaya devam ediyor, animasyon bittiğinde kullanıcı
   /// gideceği ekrana hazır olarak varıyor.
   bool _splashDone = false;
+
+  /// Bildirim dinleyicilerini söken işlev.
+  VoidCallback? _detachPush;
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_wirePush());
+  }
+
+  @override
+  void dispose() {
+    _detachPush?.call();
+    super.dispose();
+  }
+
+  /// Bildirim iletimini bağlar.
+  Future<void> _wirePush() async {
+    final push = ref.read(pushServiceProvider);
+
+    _detachPush = push.attach(
+      onOpened: _openNotification,
+      // Uygulama öndeyken Android sistem bildirimini göstermiyor; rozet ile
+      // liste tazelenmezse kullanıcı gelen bildirimi hiç fark etmiyor.
+      onReceived: () => ref
+        ..invalidate(unreadNotificationCountProvider)
+        ..invalidate(notificationsProvider),
+    );
+
+    // Jeton yazımı oturumun kurulmasını bekliyor.
+    await ref.read(pushRegistrationProvider.future);
+  }
+
+  /// Bildirime dokunulunca: yer varsa oraya, yoksa listeye.
+  void _openNotification(int? placeId) {
+    if (!mounted) return;
+
+    ref.invalidate(unreadNotificationCountProvider);
+    ref
+        .read(routerProvider)
+        .push(placeId == null ? Routes.notifications : Routes.placeFor(placeId));
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -376,5 +376,41 @@
   "mapSuggestDetail": "Katalogda olmayan bir yeri bu noktaya önerebilirsin.",
   "mapSuggestConfirm": "Yer öner",
   "profileSuggestions": "Önerdiğim yerler",
-  "profileSuggestionsDetail": "Gönderdiğin yerler ve durumları"
+  "profileSuggestionsDetail": "Gönderdiğin yerler ve durumları",
+
+  "profileNotifications": "Bildirimler",
+  "profileNotificationsDetail": "Fotoğraf ve önerilerinin sonuçları",
+  "notificationsTitle": "Bildirimler",
+  "notificationsEmptyTitle": "Henüz bildirim yok",
+  "notificationsEmptyDetail": "Gönderdiğin fotoğraf ya da yer önerisi incelendiğinde sonucu burada göreceksin.",
+  "notificationsNew": "Yeni",
+  "notificationsOpenPlace": "Yeri aç",
+  "timeJustNow": "az önce",
+  "timeMinutesAgo": "{count} dk önce",
+  "@timeMinutesAgo": {
+    "description": "Bir saatten yeni olayların zamanı.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count} sa önce",
+  "@timeHoursAgo": {
+    "description": "Bir günden yeni olayların zamanı.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count} gün önce",
+  "@timeDaysAgo": {
+    "description": "Bir haftadan yeni olayların zamanı.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

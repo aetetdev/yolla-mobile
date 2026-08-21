@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +12,7 @@ import '../../core/theme/yolla_typography.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/widgets/yolla_loader.dart';
 import '../../shared/widgets/yolla_message.dart';
+import '../notifications/push_service.dart';
 import 'place_suggestion_service.dart';
 import 'rewards_service.dart';
 
@@ -71,6 +74,10 @@ class _SuggestPlacePageState extends ConsumerState<SuggestPlacePage> {
       ref
         ..invalidate(mySuggestionsProvider)
         ..invalidate(rewardStatusProvider);
+
+      // İzin tam burada isteniyor: öneri moderasyona düştü, sonucun haber
+      // verilmesi kullanıcının işine geliyor.
+      unawaited(ref.read(pushServiceProvider).promptAfterSubmission());
 
       if (!mounted) return;
       messenger.showSnackBar(SnackBar(content: Text(l10n.suggestSent)));

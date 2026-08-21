@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +9,7 @@ import '../../core/theme/yolla_colors.dart';
 import '../../core/theme/yolla_tokens.dart';
 import '../../core/theme/yolla_typography.dart';
 import '../../l10n/app_localizations.dart';
+import '../notifications/push_service.dart';
 import 'rewards_service.dart';
 
 /// Fotoğrafsız bir yer için "fotoğraf ekle" çağrısı.
@@ -141,6 +144,11 @@ class _ContributeSheetState extends ConsumerState<_ContributeSheet> {
       ref
         ..invalidate(rewardStatusProvider)
         ..invalidate(mySubmissionsProvider);
+
+      // Bildirim izni tam burada isteniyor: kullanıcı az önce inceleme
+      // bekleyen bir şey gönderdi, sonucun kendisine haber verilmesi işine
+      // geliyor. Açılışta sorulsa reddedilirdi.
+      unawaited(ref.read(pushServiceProvider).promptAfterSubmission());
 
       if (!mounted) return;
       Navigator.of(context).pop();

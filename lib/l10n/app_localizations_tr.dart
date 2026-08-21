@@ -899,4 +899,44 @@ class L10nTr extends L10n {
 
   @override
   String get profileSuggestionsDetail => 'Gönderdiğin yerler ve durumları';
+
+  @override
+  String get profileNotifications => 'Bildirimler';
+
+  @override
+  String get profileNotificationsDetail => 'Fotoğraf ve önerilerinin sonuçları';
+
+  @override
+  String get notificationsTitle => 'Bildirimler';
+
+  @override
+  String get notificationsEmptyTitle => 'Henüz bildirim yok';
+
+  @override
+  String get notificationsEmptyDetail =>
+      'Gönderdiğin fotoğraf ya da yer önerisi incelendiğinde sonucu burada göreceksin.';
+
+  @override
+  String get notificationsNew => 'Yeni';
+
+  @override
+  String get notificationsOpenPlace => 'Yeri aç';
+
+  @override
+  String get timeJustNow => 'az önce';
+
+  @override
+  String timeMinutesAgo(int count) {
+    return '$count dk önce';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    return '$count sa önce';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    return '$count gün önce';
+  }
 }

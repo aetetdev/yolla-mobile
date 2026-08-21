@@ -32,6 +32,9 @@ abstract final class Routes {
   /// Kullanıcının önerdiği yerler ve durumları.
   static const mySuggestions = '/onerilerim';
 
+  /// Fotoğraf ve öneri sonuçlarının bildirildiği liste.
+  static const notifications = '/bildirimler';
+
   /// Konum adresle taşınıyor: form onu değiştirmiyor, yalnızca gösteriyor.
   static String suggestPlaceAt(double latitude, double longitude) =>
       '$suggestPlace?enlem=$latitude&boylam=$longitude';

@@ -12,6 +12,7 @@ import '../../core/theme/yolla_tokens.dart';
 import '../../core/theme/yolla_typography.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/widgets/yolla_loader.dart';
+import '../notifications/notification_service.dart';
 import '../session/auth_state.dart';
 import 'account_service.dart';
 import 'auth_sheet.dart';
@@ -43,6 +44,14 @@ class ProfilePage extends ConsumerWidget {
               _ => const Center(child: YollaLoader()),
             },
             const SizedBox(height: Space.xxl),
+            _Tile(
+              icon: Icons.notifications_none_rounded,
+              title: l10n.profileNotifications,
+              detail: l10n.profileNotificationsDetail,
+              badge: ref.watch(unreadNotificationCountProvider).value,
+              onTap: () => context.push(Routes.notifications),
+            ),
+            const SizedBox(height: Space.sm),
             _Tile(
               icon: Icons.monetization_on_outlined,
               title: l10n.profilePremium,
@@ -197,12 +206,16 @@ class _Tile extends StatelessWidget {
     required this.icon,
     required this.title,
     this.detail,
+    this.badge,
     this.onTap,
   });
 
   final IconData icon;
   final String title;
   final String? detail;
+
+  /// Sıfırdan büyükse simgenin üstünde sayı gösterilir.
+  final int? badge;
   final VoidCallback? onTap;
 
   @override
@@ -219,7 +232,15 @@ class _Tile extends StatelessWidget {
           padding: const EdgeInsets.all(Space.lg),
           child: Row(
             children: [
-              Icon(icon, size: 20, color: theme.colorScheme.onSurfaceVariant),
+              Badge(
+                isLabelVisible: (badge ?? 0) > 0,
+                label: Text('${badge ?? 0}'),
+                child: Icon(
+                  icon,
+                  size: 20,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
               const SizedBox(width: Space.lg),
               Expanded(
                 child: Column(

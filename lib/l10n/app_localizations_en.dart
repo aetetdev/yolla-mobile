@@ -899,4 +899,45 @@ class L10nEn extends L10n {
 
   @override
   String get profileSuggestionsDetail => 'What you sent and where it stands';
+
+  @override
+  String get profileNotifications => 'Notifications';
+
+  @override
+  String get profileNotificationsDetail =>
+      'How your photos and suggestions turned out';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmptyTitle => 'No notifications yet';
+
+  @override
+  String get notificationsEmptyDetail =>
+      'When a photo or place you sent is reviewed, the outcome shows up here.';
+
+  @override
+  String get notificationsNew => 'New';
+
+  @override
+  String get notificationsOpenPlace => 'Open place';
+
+  @override
+  String get timeJustNow => 'just now';
+
+  @override
+  String timeMinutesAgo(int count) {
+    return '$count min ago';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    return '$count h ago';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    return '$count d ago';
+  }
 }

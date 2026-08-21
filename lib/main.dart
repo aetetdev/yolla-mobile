@@ -1,11 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:maplibre_gl/maplibre_gl.dart';
 
 import 'app/app.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Bildirimin telefona iletilmesi Firebase'e bağlı. Kurulum başarısız olursa
+  // (iOS'ta `GoogleService-Info.plist` henüz yok) uygulama bildirimsiz
+  // çalışmaya devam ediyor: sonuçlar yine uygulama içindeki listede görünüyor.
+  try {
+    await Firebase.initializeApp();
+  } on Object catch (error) {
+    debugPrint('Firebase kurulamadı, bildirim iletimi kapalı: $error');
+  }
 
   // Harita platform görünümünü melez kompozisyonla göm.
   //

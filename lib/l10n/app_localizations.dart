@@ -1614,6 +1614,72 @@ abstract class L10n {
   /// In tr, this message translates to:
   /// **'Gönderdiğin yerler ve durumları'**
   String get profileSuggestionsDetail;
+
+  /// No description provided for @profileNotifications.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirimler'**
+  String get profileNotifications;
+
+  /// No description provided for @profileNotificationsDetail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf ve önerilerinin sonuçları'**
+  String get profileNotificationsDetail;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirimler'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bildirim yok'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsEmptyDetail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderdiğin fotoğraf ya da yer önerisi incelendiğinde sonucu burada göreceksin.'**
+  String get notificationsEmptyDetail;
+
+  /// No description provided for @notificationsNew.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni'**
+  String get notificationsNew;
+
+  /// No description provided for @notificationsOpenPlace.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeri aç'**
+  String get notificationsOpenPlace;
+
+  /// No description provided for @timeJustNow.
+  ///
+  /// In tr, this message translates to:
+  /// **'az önce'**
+  String get timeJustNow;
+
+  /// Bir saatten yeni olayların zamanı.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} dk önce'**
+  String timeMinutesAgo(int count);
+
+  /// Bir günden yeni olayların zamanı.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} sa önce'**
+  String timeHoursAgo(int count);
+
+  /// Bir haftadan yeni olayların zamanı.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} gün önce'**
+  String timeDaysAgo(int count);
 }
 
 class _L10nDelegate extends LocalizationsDelegate<L10n> {
