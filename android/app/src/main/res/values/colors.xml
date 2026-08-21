@@ -2,4 +2,7 @@
 <resources>
     <color name="ic_launcher_background">#0F585E</color>
     <color name="yolla_launch_background">#0F585E</color>
+
+    <!-- Bildirim simgesinin arkasındaki vurgu rengi; marka turuncusu. -->
+    <color name="yolla_notification">#D9542B</color>
 </resources>

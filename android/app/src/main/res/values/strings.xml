@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Bildirim kanalının adı ve açıklaması. Kullanıcı bunları sistem
+  ayarlarında görüyor, yani uygulamanın diline değil **telefonun** diline
+  uyması gerekiyor; bu yüzden Flutter'ın çeviri dosyalarında değil burada.
+
+  Varsayılan Türkçe: veri kapsaması Türkiye ile başlıyor.
+-->
+<resources>
+    <string name="notification_channel_id" translatable="false">yolla_katkilarim</string>
+    <string name="notification_channel_name">Gönderilerim</string>
+    <string name="notification_channel_description">Gönderdiğin fotoğraf ve yer önerilerinin sonucu.</string>
+</resources>
