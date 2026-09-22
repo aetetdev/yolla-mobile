@@ -4,9 +4,8 @@
 
 Swipe kartlarıyla turistik yer keşfi ve gezi rotası uygulamasının mobil istemcisi.
 
-Backend ayrı bir depoda (`TourAppBackend`, .NET) ve şimdilik kapalıdır; bu depo
-yalnızca mobil istemciyi taşır. Sunucu sözleşmesi `docs/api-rehberi.md`
-içinde tanımlı.
+Backend ayrı bir depoda: **[TourAppBackend](https://github.com/aetetdev/TourAppBackend)** (.NET 9, PostgreSQL + PostGIS).
+Sunucu sözleşmesi [`docs/api-rehberi.md`](https://github.com/aetetdev/TourAppBackend/blob/main/docs/api-rehberi.md) içinde.
 
 ---
 
@@ -174,3 +173,9 @@ Sunucu alanı eklerse görselli tasarıma geçilir.
   gerektirdiği için harita kararına bağlı
 - Çok günlük plan bölme (`dayIndex` alanı taşınıyor, bölme mantığı sunucuda yok)
 - Plan paylaşma / GPX dışa aktarma
+
+---
+
+## Lisans
+
+MIT — bkz. [LICENSE](LICENSE).
