@@ -1,9 +1,12 @@
+![Yolla](docs/banner.png)
+
 # Yolla — Mobil
 
 Swipe kartlarıyla turistik yer keşfi ve gezi rotası uygulamasının mobil istemcisi.
 
-Backend ayrı bir depoda (`TourAppBackend` / `yolla-backend`). Sözleşme:
-[`docs/api-rehberi.md`](../TourAppBackend/docs/api-rehberi.md).
+Backend ayrı bir depoda (`TourAppBackend`, .NET) ve şimdilik kapalıdır; bu depo
+yalnızca mobil istemciyi taşır. Sunucu sözleşmesi `docs/api-rehberi.md`
+içinde tanımlı.
 
 ---
 
@@ -15,6 +18,12 @@ Gereksinimler: Flutter 3.44+, Android SDK.
 flutter pub get
 dart run build_runner build
 ```
+
+Push bildirimleri Firebase Cloud Messaging kullanıyor. `google-services.json`
+depoda **yok** — kendi Firebase projenizi kurup dosyayı
+`android/app/google-services.json` olarak koyun; beklenen biçim için
+[`google-services.json.example`](android/app/google-services.json.example)
+dosyasına bakın. Dosya olmadan uygulama derlenir ama push çalışmaz.
 
 ## Çalıştırma
 
